@@ -136,8 +136,7 @@ class Admin(commands.Cog, name="Admin"):
         os.remove(tempBHFile)
         asyncio.sleep(2)
         await ctx.send('**👌🏼** My new avatar!\n %s' % self.bot.user.avatar_url)
-    else:
-        await ctx.send('❌ You are not authorized to use this command.')
+
 
     @commands.command(hidden=True)
 #    @commands.is_owner()

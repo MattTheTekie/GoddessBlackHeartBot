@@ -136,8 +136,8 @@ class Admin(commands.Cog, name="Admin"):
         os.remove(tempBHFile)
         asyncio.sleep(2)
         await ctx.send('**👌🏼** My new avatar!\n %s' % self.bot.user.avatar_url)
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
     @commands.command(hidden=True)
 #    @commands.is_owner()
@@ -156,8 +156,8 @@ class Admin(commands.Cog, name="Admin"):
         os.remove(tempsvicon)
         asyncio.sleep(2)
         await ctx.send('**👌🏼** New Server Icon set!') #\n %s' % self.bot.user.avatar_url)
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
 
     @commands.command(hidden=True, aliases=['game'])
@@ -205,8 +205,8 @@ class Admin(commands.Cog, name="Admin"):
             discordStatus = discord.Status.online
         await self.bot.change_presence(status=discordStatus)
         await ctx.send(f'**👌🏼** to another status: **{discordStatus}**')
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
             
     @commands.command(hidden=True)
 #    @commands.is_owner()
@@ -216,8 +216,8 @@ class Admin(commands.Cog, name="Admin"):
         await self.bot.user.edit(username=name)
         msg = f'👌🏼 change my name: **{name}**'
         await ctx.send(msg)
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
     @commands.command(hidden=True)
     async def servername(self, ctx, name):
@@ -226,8 +226,8 @@ class Admin(commands.Cog, name="Admin"):
         await ctx.guild.edit(name=name)
         msg = f'👌🏼 change server name: **{name}**'
         await ctx.send(msg)
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
     @commands.command(hidden=True, aliases=['guilds'])
 #    @commands.is_owner()
@@ -240,8 +240,8 @@ class Admin(commands.Cog, name="Admin"):
             msg += '{!s:19s} | {!s:>5s}| {} | {}\n'.format(guild.id, guild.member_count, guild.name, guild.owner)
         msg += '```'
         await ctx.send(msg)
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
 
     @commands.command(hidden=True)
@@ -264,8 +264,8 @@ class Admin(commands.Cog, name="Admin"):
             else:
                 msg = f":x: Couldn't find a matching guild for this ID!"
         await ctx.send(msg)
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
 
     @commands.command(hidden=True)
@@ -277,8 +277,8 @@ class Admin(commands.Cog, name="Admin"):
         msg = ' '.join(message)
         await ch.send(msg)
         await ctx.message.delete()
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
     @commands.command(hidden=True)
     async def discriminator(self, ctx, disc: str):
@@ -309,8 +309,8 @@ class Admin(commands.Cog, name="Admin"):
         else:
             msg = f'👌🏼 Reset from my server nickname: **{ctx.me.name}**'
         await ctx.send(msg)
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
     @commands.command(hidden=True)
     @commands.bot_has_permissions(manage_nicknames = True)
@@ -332,8 +332,8 @@ class Admin(commands.Cog, name="Admin"):
         server = self.bot.get_guild(int(guildid))
         await ctx.send(server.icon_url)
         await ctx.send('✅ Server icon from **`{}`**'.format(guildid))
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
 
     @commands.command()
@@ -347,8 +347,8 @@ class Admin(commands.Cog, name="Admin"):
         log.close()
         await ctx.send(file=discord.File(logfile))
         await ctx.send('✅ sent **`{}`** from **`{}`**'.format(logfile, server))
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
     @commands.command()
 #    @commands.is_owner()
@@ -361,8 +361,8 @@ class Admin(commands.Cog, name="Admin"):
         log.close()
         await ctx.send(file=discord.File(logfile))
         await ctx.send('✅ sent **`{}`** from **`{}`**'.format(logfile, server))
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
     @commands.command(hidden=True)
     @commands.bot_has_permissions(create_instant_invite = True)
@@ -373,8 +373,8 @@ class Admin(commands.Cog, name="Admin"):
         invite = await guild.create_invite(unique=False)
         msg = f'Invite for **{guild.name}** ({guild.id})\n{invite.url}'
         await user.send(msg)
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
     @commands.command(hidden=True, aliases=['wichteln'])
     async def wichtel(self, ctx, *participants: str):
@@ -390,8 +390,8 @@ class Admin(commands.Cog, name="Admin"):
 
         msg += '```'
         await ctx.send(msg)
-        else:
-            await ctx.send('❌ You are not authorized to use this command.')
+    else:
+        await ctx.send('❌ You are not authorized to use this command.')
 
     @commands.command(hidden=True)
     async def test(self, ctx):

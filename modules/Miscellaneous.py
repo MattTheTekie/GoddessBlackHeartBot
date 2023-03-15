@@ -97,7 +97,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
     @commands.command()
     async def finished(self, ctx):
         embed = discord.Embed(color=discord.Colour.red(), title="YOU'RE FINISHED!")
-        embed.set_image(url="https://i.fiery.me/2KnBa.gif")
+        embed.set_image(url="https://n3rdp0rt4l-hq.gitlab.io/n3rdp0rt4l/bg.gif")
         await ctx.send(embed=embed)
 
     @commands.command()

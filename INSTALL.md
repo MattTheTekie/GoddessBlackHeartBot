@@ -42,7 +42,7 @@ create a database called "axiro". The bot will setup the database for you.
 1. Place all API Tokens in where they should go in `config.json`. That file needs to be created.
 2. Install the requirements listed above.
 3. If you want the music module to work, follow the instructions in the section below called "Getting the Music module to work" before moving on to the next step.
-4. Run `python core.py`. Substitute `python` with `python3` or `py` if `python` does not work.
+4. Run `python GBH.py`. Substitute `python` with `python3` or `py` if `python` does not work.
 
 ## Getting the Music module to work
 

@@ -45,7 +45,7 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.life/api/v2/img/kiss'
+        url = 'https://purrbot.site/img/sfw/kiss/gif/'
         image = self.getImage(url)
         embed = discord.Embed(title="{} has kissed {}. Weird...".format(ctx.message.author.name, user.name))
         embed.set_image(url=image)
@@ -58,7 +58,7 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.life/api/v2/img/hug'
+        url = 'https://purrbot.site/img/sfw/hug/gif/'
         image = self.getImage(url)
         embed = discord.Embed(title="{} hugged {}. How comforting.".format(ctx.message.author.name, user.name))
         embed.set_image(url=image)
@@ -71,7 +71,7 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.life/api/v2/img/tickle'
+        url = 'https://purrbot.site/img/sfw/tickle/gif/'
         image = self.getImage(url)
         embed = discord.Embed(title="{} tickled {}. They're having fun...".format(ctx.message.author.name, user.name))
         embed.set_image(url=image)
@@ -84,7 +84,7 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.life/api/v2/img/poke'
+        url = 'https://purrbot.site/img/sfw/poke/gif/'
         image = self.getImage(url)
         embed = discord.Embed(title="{} poked {}. Yikes.".format(ctx.message.author.name, user.name))
         embed.set_image(url=image)
@@ -97,7 +97,7 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.life/api/v2/img/slap'
+        url = 'https://purrbot.site/img/sfw/slap/gif/'
         image = self.getImage(url)
         embed = discord.Embed(title="{} slapped {}. Must've been a real baka...".format(ctx.message.author.name, user.name))
         embed.set_image(url=image)
@@ -110,7 +110,7 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.life/api/v2/img/cuddle'
+        url = 'https://purrbot.site/img/sfw/cuddle/gif/'
         image = self.getImage(url)
         embed = discord.Embed(title="{} cuddled {}. How comforting.".format(ctx.message.author.name, user.name))
         embed.set_image(url=image)
@@ -123,7 +123,7 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.life/api/v2/img/pat'
+        url = 'https://purrbot.site/img/sfw/pat/gif/'
         image = self.getImage(url)
         embed = discord.Embed(title="{} patted {}. That's nice.".format(ctx.message.author.name, user.name))
         embed.set_image(url=image)

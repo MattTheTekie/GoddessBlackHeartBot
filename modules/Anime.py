@@ -174,5 +174,23 @@ class Anime(commands.Cog, name="Anime"):
         msg = f'{emoji} I rate **{waifuName}** a **{rating}/10**'
         await ctx.send(msg)
 
+    @commands.command()
+    async def anime(self, ctx, *, query):
+        variables = {
+            'search': query,
+            'page': 1,
+            'perPage': 1
+        }
+        url = 'https://graphql.anilist.co'
+        response = requests.post(url, json={'query': query, 'variables': variables})
+        data = response.json()
+        anime = data['data']['Page']['media'][0]
+        title = anime['title']['romaji']
+        description = anime['description']
+        image_url = anime['coverImage']['large']
+        embed = discord.Embed(title=title, description=description)
+        embed.set_image(url=image_url)
+        await ctx.send(embed=embed)
+
 def setup(bot):
     bot.add_cog(Anime(bot))

@@ -25,41 +25,33 @@ class Anime(commands.Cog, name="Broken Animes"):
 
     @commands.command()
     async def kawaii(self, ctx):
-        '''Gibt ein zufälliges kawaii Bild aus'''
-        if loadconfig.__kawaiichannel__:
-            pins = await self.bot.get_channel(loadconfig.__kawaiichannel__).pins()
-            rnd = random.choice(pins)
-            img = rnd.attachments[0].url
-            emojis = [':blush:', ':flushed:', ':heart_eyes:', ':heart_eyes_cat:', ':heart:']
-            await ctx.send(f'{random.choice(emojis)} Von: {rnd.author.display_name}: {img}')
-        else:
-            await ctx.send('**:no_entry:** Es wurde kein Channel für den Bot eingestellt! Wende dich bitte an den Bot Admin')
+        try:
+            user = ctx.message.mentions[0]
+        except Exception:
+            await ctx.send("Please specify a user.")
+            return
+        url = 'https://nekos.best/api/v2/neko'
+        response = requests.get(url)
+        image_data = response.json()
+        image_url = image_data['results'][0]['url']
+        embed = discord.Embed(title="Kawaii")
+        embed.set_image(url=image_url)
+        await ctx.send(embed=embed)
 
-    @commands.command(pass_context=True, hidden=True)
+    @commands.command()
     async def nsfw(self, ctx):
-        '''Vergibt die Rolle um auf die NSFW Channel zugreifen zu können'''
-        if ctx.guild.id == loadconfig.__botserverid__:
-            if loadconfig.__selfassignrole__:
-                role = discord.utils.get(ctx.guild.roles, name=loadconfig.__selfassignrole__)
-                if role in ctx.author.roles:
-                    try:
-                        await ctx.author.remove_roles(role)
-                    except:
-                        pass
-                    tmp = await ctx.send(f':x: Rolle **{role}** wurde entfernt')
-                else:
-                    try:
-                        await ctx.author.add_roles(role)
-                    except:
-                        pass
-                    tmp = await ctx.send(f':white_check_mark: Rolle **{role}** wurde hinzugefügt')
-            else:
-                tmp = await ctx.send('**:no_entry:** Es wurde keine Rolle für den Bot eingestellt! Wende dich bitte an den Bot Admin')
-        else:
-            tmp = await ctx.send(f'**:no_entry:** This command don\'t work on this server!')
-        await asyncio.sleep(2 * 60)
-        await tmp.delete()
-        await ctx.message.delete()
+        try:
+            user = ctx.message.mentions[0]
+        except Exception:
+            await ctx.send("Please specify a user.")
+            return
+        url = 'https://nekos.best/api/v2/waifu'
+        response = requests.get(url)
+        image_data = response.json()
+        image_url = image_data['results'][0]['url']
+        embed = discord.Embed(title="NSFW")
+        embed.set_image(url=image_url)
+        await ctx.send(embed=embed)
 
     @commands.command(aliases=['wave', 'hi', 'ohaiyo'])
     async def hello(self, ctx):

@@ -8,7 +8,7 @@ from datetime import datetime
 from datetime import timedelta
 import aiohttp
 import random
-
+import requests
 class Weather(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

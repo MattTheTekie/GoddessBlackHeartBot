@@ -38,7 +38,7 @@ class Fun(commands.Cog, name="Fun"):
                       'Pffft. Of course not.']]
         await ctx.send(random.choice(random.choice(responses)))
 
-@commands.command()
+    @commands.command()
     async def cat(self, ctx):
         url = 'https://cataas.com/cat'
         response = requests.get(url)

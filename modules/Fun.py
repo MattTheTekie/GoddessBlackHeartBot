@@ -42,10 +42,11 @@ class Fun(commands.Cog, name="Fun"):
     async def cats(self, ctx):
         url = 'https://cataas.com/cat'
         response = requests.get(url)
-        image_url = 'https://cataas.com' + response.content.decode('ISO-8859-1')
+        cat_image = response.content
+        cat_file = discord.File(io.BytesIO(cat_image), filename='cat.png')
         embed = discord.Embed(title="Here's a cat.")
-        embed.set_image(url=image_url)
-        await ctx.send(embed=embed)
+        embed.set_image(url="attachment://cat.png")
+        await ctx.send(file=cat_file, embed=embed)
 
     @commands.command()
     async def kiss(self, ctx):

@@ -16,7 +16,7 @@ class Image(commands.Cog, name="Image"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='danbooru', help='Search for an image on Danbooru.')
+    @commands.command(name='Jdanbooru', help='Search for an image on Danbooru.')
     async def danbooru_search(self, ctx, *tags):
         if not tags:
             await ctx.send('Please specify some tags to search for.')

@@ -176,7 +176,7 @@ class Anime(commands.Cog, name="Anime"):
 
     @commands.command()
     async def anime(self, ctx, *, query):
-        query = '''
+        query_str = '''
         query ($search: String) {
             Media (search: $search, type: ANIME) {
                 title {
@@ -193,7 +193,7 @@ class Anime(commands.Cog, name="Anime"):
             'search': query
         }
         url = 'https://graphql.anilist.co'
-        response = requests.post(url, json={'query': query, 'variables': variables})
+        response = requests.post(url, json={'query': query_str, 'variables': variables})
         data = response.json()
         anime = data.get('data', {}).get('Media')
         if anime is None:

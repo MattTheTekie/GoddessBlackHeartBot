@@ -59,11 +59,13 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.best/api/v2/hug'
-        image = self.getImage(url)
-        embed = discord.Embed(title="{} hugged {}. How comforting.".format(ctx.message.author.name, user.name))
-        embed.set_image(url=image)
+        url = 'https://nekos.life/api/v2/img/hug'
+        response = requests.get(url)
+        image = response.json()
+        embed = discord.Embed(title="User has kissed")
+        embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
+        embed = discord.Embed(title="{} hugged {}. How comforting.".format(ctx.message.author.name, user.name))
 
     @commands.command()
     async def tickle(self, ctx):

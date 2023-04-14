@@ -1,3 +1,4 @@
+import requests
 import sys
 import random
 import re

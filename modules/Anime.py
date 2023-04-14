@@ -206,5 +206,37 @@ class Anime(commands.Cog, name="Anime"):
         embed.set_image(url=image_url)
         await ctx.send(embed=embed)
 
+    @commands.command()
+    async def manga(self, ctx, *, query):
+        query_str = '''
+        query ($search: String) {
+            Media (search: $search, type: MANGA) {
+                title {
+                    romaji
+                }
+                description (asHtml: false)
+                coverImage {
+                    large
+                }
+            }
+        }
+        '''
+        variables = {
+            'search': query
+        }
+        url = 'https://graphql.anilist.co'
+        response = requests.post(url, json={'query': query_str, 'variables': variables})
+        data = response.json()
+        manga = data.get('data', {}).get('Media')
+        if manga is None:
+            await ctx.send(f"No results found for '{query}'")
+            return
+        title = manga['title']['romaji']
+        description = manga['description']
+        image_url = manga['coverImage']['large']
+        embed = discord.Embed(title=title, description=description)
+        embed.set_image(url=image_url)
+        await ctx.send(embed=embed)
+
 def setup(bot):
     bot.add_cog(Anime(bot))

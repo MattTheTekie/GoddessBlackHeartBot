@@ -82,18 +82,18 @@ class Fun(commands.Cog, name="Fun"):
 
     @commands.command()
     async def poke(self, ctx):
-    try:
-        user = ctx.message.mentions[0]
-    except Exception:
-        await ctx.send("Please specify a user.")
-        return
-    url = 'https://nekos.best/api/v2/poke'
-    response = requests.get(url)
-    image_data = response.json()
-    image_url = image_data['results'][0]['url']
-    embed = discord.Embed(title="{} poked {}. How comforting.".format(ctx.message.author.name, user.name))
-    embed.set_image(url=image_url)
-    await ctx.send(embed=embed)
+        try:
+            user = ctx.message.mentions[0]
+        except Exception:
+            await ctx.send("Please specify a user.")
+            return
+        url = 'https://nekos.best/api/v2/poke'
+        response = requests.get(url)
+        image_data = response.json()
+        image_url = image_data['results'][0]['url']
+        embed = discord.Embed(title="{} poked {}. How comforting.".format(ctx.message.author.name, user.name))
+        embed.set_image(url=image_url)
+        await ctx.send(embed=embed)
 
     @commands.command()
     async def slap(self, ctx):

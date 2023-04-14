@@ -123,7 +123,7 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.best/api/v2/pat/042.gif'
+        url = 'https://nekos.best/api/v2/pat'
         image = self.getImage(url)
         embed = discord.Embed(title="{} patted {}. That's nice.".format(ctx.message.author.name, user.name))
         embed.set_image(url=image)

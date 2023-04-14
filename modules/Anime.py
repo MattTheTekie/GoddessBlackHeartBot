@@ -25,11 +25,6 @@ class Anime(commands.Cog, name="Anime"):
 
     @commands.command()
     async def kawaii(self, ctx):
-        try:
-            user = ctx.message.mentions[0]
-        except Exception:
-            await ctx.send("Please specify a user.")
-            return
         url = 'https://nekos.best/api/v2/neko'
         response = requests.get(url)
         image_data = response.json()

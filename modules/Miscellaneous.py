@@ -9,35 +9,11 @@ from datetime import timedelta
 import aiohttp
 import random
 import requests
-class Weather(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
 
 class Miscellaneous(commands.Cog, name="Miscellaneous"):
 
     def __init__(self, bot):
         self.bot = bot
-
-    @commands.command()
-    async def news(self, msg):
-        config = json.loads(open('config.json', 'r').read())
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get('https://newsapi.org/v2/top-headlines?country=us&pageSize=1&apiKey={}'
-                                       .format(config.get('newsapitoken'))) as resp:
-                    top_headlines = await resp.json()
-        except Exception:
-            await msg.send("I was completely unable to read the news. :(")
-            return
-        embed = discord.Embed(color=discord.Colour.dark_red(), title="Latest from the news.",
-                              description="[{}]({})".format(top_headlines['articles'][0]['title'],
-                                                            top_headlines['articles'][0]['url']))
-        try:
-            embed.set_image(url=top_headlines['articles'][0]['urlToImage'])
-        except Exception:
-            pass
-        await msg.send(embed=embed)
-
 
     @commands.command()
     async def uptime(self, ctx):

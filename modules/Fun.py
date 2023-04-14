@@ -74,10 +74,11 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.best/api/v2/tickle'
-        image = self.getImage(url)
-        embed = discord.Embed(title="{} tickled {}. They're having fun...".format(ctx.message.author.name, user.name))
-        embed.set_image(url=image)
+        url = 'https://nekos.life/api/v2/img/tickle'
+        response = requests.get(url)
+        image = response.json()
+        embed = discord.Embed(title="User has tickle")
+        embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -87,10 +88,11 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.best/api/v2/poke'
-        image = self.getImage(url)
-        embed = discord.Embed(title="{} poked {}. Yikes.".format(ctx.message.author.name, user.name))
-        embed.set_image(url=image)
+        url = 'https://nekos.life/api/v2/img/poke'
+        response = requests.get(url)
+        image = response.json()
+        embed = discord.Embed(title="User has poke")
+        embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -100,10 +102,11 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.best/api/v2/slap'
-        image = self.getImage(url)
-        embed = discord.Embed(title="{} slapped {}. Must've been a real baka...".format(ctx.message.author.name, user.name))
-        embed.set_image(url=image)
+        url = 'https://nekos.life/api/v2/img/slap'
+        response = requests.get(url)
+        image = response.json()
+        embed = discord.Embed(title="User has slap")
+        embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -113,10 +116,11 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.best/api/v2/cuddle'
-        image = self.getImage(url)
-        embed = discord.Embed(title="{} cuddled {}. How comforting.".format(ctx.message.author.name, user.name))
-        embed.set_image(url=image)
+        url = 'https://nekos.life/api/v2/img/cuddle'
+        response = requests.get(url)
+        image = response.json()
+        embed = discord.Embed(title="User has cuddled")
+        embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -126,10 +130,11 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.best/api/v2/pat'
-        image = self.getImage(url)
-        embed = discord.Embed(title="{} patted {}. That's nice.".format(ctx.message.author.name, user.name))
-        embed.set_image(url=image)
+        url = 'https://nekos.life/api/v2/img/pat'
+        response = requests.get(url)
+        image = response.json()
+        embed = discord.Embed(title="User has pat")
+        embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
     @commands.command()

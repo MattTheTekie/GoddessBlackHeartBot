@@ -356,7 +356,6 @@ class Admin(commands.Cog, name="Admin"):
     async def test(self, ctx):
         '''Test Test Test'''
         await ctx.send('Test')
-        await ctx.send(self.bot.cogs)
 
 def setup(bot):
     bot.add_cog(Admin(bot))

@@ -38,6 +38,15 @@ class Fun(commands.Cog, name="Fun"):
                       'Pffft. Of course not.']]
         await ctx.send(random.choice(random.choice(responses)))
 
+@commands.command()
+    async def cat(self, ctx):
+        url = 'https://cataas.com/cat'
+        response = requests.get(url)
+        image_url = 'https://cataas.com' + response.headers['x-cataas-url']
+        embed = discord.Embed(title="Here's a cat.")
+        embed.set_image(url=image_url)
+        await ctx.send(embed=embed)
+
     @commands.command()
     async def kiss(self, ctx):
         try:

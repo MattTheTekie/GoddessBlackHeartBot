@@ -45,10 +45,11 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.best/api/v2/kiss'
-        image = self.getImage(url)
-        embed = discord.Embed(title="{} has kissed {}. Weird...".format(ctx.message.author.name, user.name))
-        embed.set_image(url=image)
+        url = 'https://nekos.life/api/v2/img/neko'
+        response = requests.get(url)
+        image = response.json()
+        embed = discord.Embed(title="User has kissed")
+        embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
     @commands.command()

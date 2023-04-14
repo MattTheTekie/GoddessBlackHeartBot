@@ -176,16 +176,32 @@ class Anime(commands.Cog, name="Anime"):
 
     @commands.command()
     async def anime(self, ctx, *, query):
-        url = f'https://api.jikan.moe/v3/search/anime?q={query}'
-        response = requests.get(url)
+        query = '''
+        query ($search: String) {
+            Media (search: $search, type: ANIME) {
+                title {
+                    romaji
+                }
+                description (asHtml: false)
+                coverImage {
+                    large
+                }
+            }
+        }
+        '''
+        variables = {
+            'search': query
+        }
+        url = 'https://graphql.anilist.co'
+        response = requests.post(url, json={'query': query, 'variables': variables})
         data = response.json()
-        anime = data.get('results', [])[0]
+        anime = data.get('data', {}).get('Media')
         if anime is None:
             await ctx.send(f"No results found for '{query}'")
             return
-        title = anime['title']
-        description = anime['synopsis']
-        image_url = anime['image_url']
+        title = anime['title']['romaji']
+        description = anime['description']
+        image_url = anime['coverImage']['large']
         embed = discord.Embed(title=title, description=description)
         embed.set_image(url=image_url)
         await ctx.send(embed=embed)

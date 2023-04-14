@@ -1,8 +1,9 @@
 {
+  "weather": "Shows the weather."
+  "cats": "Gives you cat's."
   "example": "You shouldn't be seeing this for any reason.",
   "image": "This is the images section.",
   "konachan": "Searches for an image on Konachan. Can only be used in NSFW channels. \n\n``x!konachan`` - Gets a random image from Konachan. \n\n``x!konachan [tag] [tag]`` - Gets an image with the specified tag(s). Ratings can also be specified (safe, questionable, or explicit).",
-  "danbooru": "Searches for an image on Danbooru. Can only be used in NSFW channels. \n\n``x!danbooru`` - Gets a random image from Danbooru. \n\n``x!danbooru [tag] [tag]`` - Gets an image with the specified tag(s). Ratings can also be specified (safe, questionable, or explicit).",
   "yandere": "Searches for an image on Yande.re. Can only be used in NSFW channels. \n\n``x!yandere`` - Gets a random image from Yande.re. \n\n``x!yandere [tag] [tag]`` - Gets an image with the specified tag(s). Ratings can also be specified (safe, questionable, or explicit).",
   "neko": "Gets an image from Nekos API. \n\n``x!neko`` - Gets a random image.",
   "encryption": "This is the encryption section.",

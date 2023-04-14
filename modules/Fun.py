@@ -48,7 +48,7 @@ class Fun(commands.Cog, name="Fun"):
         url = 'https://nekos.life/api/v2/img/kiss'
         response = requests.get(url)
         image = response.json()
-        embed = discord.Embed(title="User has kissed")
+        embed = discord.Embed(title="User has kissed user.")
         embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
@@ -62,7 +62,7 @@ class Fun(commands.Cog, name="Fun"):
         url = 'https://nekos.life/api/v2/img/hug'
         response = requests.get(url)
         image = response.json()
-        embed = discord.Embed(title="User has kissed")
+        embed = discord.Embed(title="User has hugged user.")
         embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
         embed = discord.Embed(title="{} hugged {}. How comforting.".format(ctx.message.author.name, user.name))
@@ -77,7 +77,7 @@ class Fun(commands.Cog, name="Fun"):
         url = 'https://nekos.life/api/v2/img/tickle'
         response = requests.get(url)
         image = response.json()
-        embed = discord.Embed(title="User has tickle")
+        embed = discord.Embed(title="User has tickled user.")
         embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
@@ -91,7 +91,7 @@ class Fun(commands.Cog, name="Fun"):
         url = 'https://nekos.life/api/v2/img/poke'
         response = requests.get(url)
         image = response.json()
-        embed = discord.Embed(title="User has poke")
+        embed = discord.Embed(title="User has poked user.")
         embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
@@ -105,7 +105,7 @@ class Fun(commands.Cog, name="Fun"):
         url = 'https://nekos.life/api/v2/img/slap'
         response = requests.get(url)
         image = response.json()
-        embed = discord.Embed(title="User has slap")
+        embed = discord.Embed(title="User has slapped user.")
         embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
@@ -119,7 +119,7 @@ class Fun(commands.Cog, name="Fun"):
         url = 'https://nekos.life/api/v2/img/cuddle'
         response = requests.get(url)
         image = response.json()
-        embed = discord.Embed(title="User has cuddled")
+        embed = discord.Embed(title="User has cuddled user.")
         embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
@@ -133,7 +133,7 @@ class Fun(commands.Cog, name="Fun"):
         url = 'https://nekos.life/api/v2/img/pat'
         response = requests.get(url)
         image = response.json()
-        embed = discord.Embed(title="User has pat")
+        embed = discord.Embed(title="User has patted user.")
         embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 

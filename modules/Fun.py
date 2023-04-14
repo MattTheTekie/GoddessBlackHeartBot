@@ -189,7 +189,7 @@ class Fun(commands.Cog, name="Fun"):
         return image
 
     @commands.command(pass_context=True, aliases=['achievement', 'ach'])
-async def mc(self, ctx, *, txt:str):
+    async def mc(self, ctx, *, txt:str):
     """Generate a Minecraft Achievement"""
     api = "https://skinmc.net/en/achievement/{0}/Achievement+Get%21/{1}".format(ctx.message.author.name, txt.replace(" ", "+"))
     b = await self.bot.bytes_download(api)

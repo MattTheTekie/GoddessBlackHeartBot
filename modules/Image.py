@@ -5,13 +5,6 @@ import random
 import requests
 import aiohttp
 from discord.ext import commands
-from danbooru import Danbooru
-
-class DanbooruCog(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-        self.danbooru = Danbooru('danbooru') # Use 'safebooru' for SFW content
-
 
 class Image(commands.Cog, name="Image"):
 
@@ -42,70 +35,6 @@ class Image(commands.Cog, name="Image"):
         embed = discord.Embed(title="From nekos.life")
         embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
-
-    @commands.command()
-    async def danbooru(self, context, tags=None, secondtag=None):
-        """Posts an image directly from Project Danbooru."""
-        if context.message.channel.is_nsfw():
-            rating = 0
-            temp = "[-status]=deleted"
-            # No tags
-            if tags is None:
-                pass
-            # Tags
-            else:
-                if secondtag is None:
-                    rating = self.checktags(tags, "")
-                    if not self.nololitag(tags, ""):
-                        await context.send("We can't show this as it violates Discord ToS.")
-                        return
-                else:
-                    rating = self.checktags(tags, secondtag)
-                    if not self.nololitag(tags, secondtag):
-                        await context.send("We can't show this as it violates Discord ToS.")
-                        return
-                # One tag
-                if secondtag is None:
-                    if rating == 0:
-                        temp = temp + "&[tags]={}".format(tags)
-                    else:
-                        temp = temp + "&[tags]={}".format(self.rating(rating))
-                # Two tags
-                else:
-                    if rating == 0:
-                        temp = temp + "&[tags]={}+{}".format(tags, secondtag)
-                    else:
-                        if "safe".lower() in tags or "questionable".lower() in tags or "explicit".lower() in tags:
-                            temp = temp + "&[tags]={}+{}".format(self.rating(rating), secondtag)
-                        else:
-                            temp = temp + "&[tags]={}+{}".format(tags, self.rating(rating))
-            async with aiohttp.ClientSession() as session:
-                async with session.get('https://danbooru.donmai.us/posts/random.json?search{}'
-                                                   .format(temp)) as resp:
-                    data = await resp.json()
-                await session.close()
-            try:
-                url = data['file_url']
-            except Exception:
-                await context.send("We could not find any images with that tag.")
-                return
-        else:
-            await context.send("You need to be in a NSFW channel to run this command.")
-            return
-        if context.message.guild is not None:
-            color = context.message.guild.me.color
-        else:
-            color = discord.Colour.blurple()
-        embed = discord.Embed(color=color, title="Image from Project Danbooru!",
-                              description="If you can't see the image, click the title.", url=url)
-        embed.add_field(name="Rating: ", value="{}".format(self.formatrating(data['rating'])), inline=True)
-        embed.add_field(name="Known tags ({}): ".format(data['tag_count']), value="`{}`"
-                        .format(self.taglistlength(data['tag_string'])), inline=False)
-        embed.add_field(name="Original link: ", value="[Click here](https://danbooru.donmai.us/posts/{})"
-                        .format(data['id']), inline=True)
-        embed.set_image(url=url)
-        embed.set_footer(text="Powered by Project Danbooru.")
-        await context.send(embed=embed)
 
     @commands.command()
     async def konachan(self, context, tags=None, rating=None):
@@ -268,4 +197,3 @@ class Image(commands.Cog, name="Image"):
 
 def setup(bot):
     bot.add_cog(Image(bot))
-    bot.add_cog(DanbooruCog(bot))

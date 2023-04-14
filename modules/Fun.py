@@ -45,7 +45,7 @@ class Fun(commands.Cog, name="Fun"):
         except Exception:
             await ctx.send("Please specify a user.")
             return
-        url = 'https://nekos.life/api/v2/img/neko'
+        url = 'https://nekos.life/api/v2/img/kiss'
         response = requests.get(url)
         image = response.json()
         embed = discord.Embed(title="User has kissed")

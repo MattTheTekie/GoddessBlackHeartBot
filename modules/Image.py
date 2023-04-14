@@ -5,13 +5,11 @@ import random
 import requests
 import aiohttp
 from discord.ext import commands
-from danbooru import Danbooru
+import json
 
-class DanbooruCog(commands.Cog):
+class Danbooru(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.danbooru = Danbooru('danbooru') # Use 'safebooru' for SFW content
-
 
 class Image(commands.Cog, name="Image"):
 
@@ -43,229 +41,37 @@ class Image(commands.Cog, name="Image"):
         embed.set_image(url=image['url'])
         await ctx.send(embed=embed)
 
-    @commands.command()
-    async def danbooru(self, context, tags=None, secondtag=None):
-        """Posts an image directly from Project Danbooru."""
-        if context.message.channel.is_nsfw():
-            rating = 0
-            temp = "[-status]=deleted"
-            # No tags
-            if tags is None:
-                pass
-            # Tags
+    @commands.command(name="danbooru")
+    async def danbooru(self, ctx, *, tags):
+        # Define API endpoint and request parameters
+        api_url = "https://danbooru.donmai.us/posts.json"
+        params = {
+            "limit": 1,
+            "tags": tags
+        }
+        
+        # Send GET request to Danbooru API
+        response = requests.get(api_url, params=params)
+        
+        # Check if response was successful
+        if response.status_code == 200:
+            # Parse JSON response
+            data = json.loads(response.text)
+            
+            # Check if any posts were found
+            if len(data) > 0:
+                # Extract image URL from post data
+                image_url = "https://danbooru.donmai.us" + data[0]["file_url"]
+                
+                # Send image to Discord server
+                embed = discord.Embed()
+                embed.set_image(url=image_url)
+                await ctx.send(embed=embed)
             else:
-                if secondtag is None:
-                    rating = self.checktags(tags, "")
-                    if not self.nololitag(tags, ""):
-                        await context.send("We can't show this as it violates Discord ToS.")
-                        return
-                else:
-                    rating = self.checktags(tags, secondtag)
-                    if not self.nololitag(tags, secondtag):
-                        await context.send("We can't show this as it violates Discord ToS.")
-                        return
-                # One tag
-                if secondtag is None:
-                    if rating == 0:
-                        temp = temp + "&[tags]={}".format(tags)
-                    else:
-                        temp = temp + "&[tags]={}".format(self.rating(rating))
-                # Two tags
-                else:
-                    if rating == 0:
-                        temp = temp + "&[tags]={}+{}".format(tags, secondtag)
-                    else:
-                        if "safe".lower() in tags or "questionable".lower() in tags or "explicit".lower() in tags:
-                            temp = temp + "&[tags]={}+{}".format(self.rating(rating), secondtag)
-                        else:
-                            temp = temp + "&[tags]={}+{}".format(tags, self.rating(rating))
-            async with aiohttp.ClientSession() as session:
-                async with session.get('https://danbooru.donmai.us/posts/random.json?search{}'
-                                                   .format(temp)) as resp:
-                    data = await resp.json()
-                await session.close()
-            try:
-                url = data['file_url']
-            except Exception:
-                await context.send("We could not find any images with that tag.")
-                return
+                await ctx.send("No posts found with those tags.")
         else:
-            await context.send("You need to be in a NSFW channel to run this command.")
-            return
-        if context.message.guild is not None:
-            color = context.message.guild.me.color
-        else:
-            color = discord.Colour.blurple()
-        embed = discord.Embed(color=color, title="Image from Project Danbooru!",
-                              description="If you can't see the image, click the title.", url=url)
-        embed.add_field(name="Rating: ", value="{}".format(self.formatrating(data['rating'])), inline=True)
-        embed.add_field(name="Known tags ({}): ".format(data['tag_count']), value="`{}`"
-                        .format(self.taglistlength(data['tag_string'])), inline=False)
-        embed.add_field(name="Original link: ", value="[Click here](https://danbooru.donmai.us/posts/{})"
-                        .format(data['id']), inline=True)
-        embed.set_image(url=url)
-        embed.set_footer(text="Powered by Project Danbooru.")
-        await context.send(embed=embed)
-
-    @commands.command()
-    async def konachan(self, context, tags=None, rating=None):
-        """Picks a random image from Konachan and displays it."""
-        if context.message.channel.is_nsfw():
-            if tags is None:
-                temp = "?tags=-status%3Adeleted+-loli+-shota&limit=100"
-            elif "safe".lower() in tags:
-                temp = "?tags=-status%3Adeleted+-loli+-shota+rating:s&limit=100"
-            elif "explicit".lower() in tags:
-                temp = "?tags=-status%3Adeleted+-loli+-shota+rating:e&limit=100"
-            elif "questionable".lower() in tags:
-                temp = "?tags=-status%3Adeleted+-loli+-shota+rating:q&limit=100"
-            elif "loli".lower() in tags:
-                await context.send("We can't show this as it violates Discord ToS.")
-                return
-            elif "shota".lower() in tags:
-                await context.send("We can't show this as it violates Discord ToS.")
-                return
-            else:
-                if rating is None:
-                    temp = "?tags=-status%3Adeleted+-loli+-shota+{}&limit=100".format(tags)
-                elif "safe".lower() in rating:
-                    temp = "?tags=-status%3Adeleted+-loli+-shota+{}+rating:s&limit=100".format(tags)
-                elif "explicit".lower() in rating:
-                    temp = "?tags=-status%3Adeleted+-loli+-shota+{}+rating:e&limit=100".format(tags)
-                elif "questionable".lower() in rating:
-                    temp = "?tags=-status%3Adeleted+-loli+-shota+{}+rating:q&limit=100".format(tags)
-                else:
-                    temp = "?tags=-status%3Adeleted+-loli+-shota+{}+{}&limit=100".format(tags, rating)
-            async with aiohttp.ClientSession() as session:
-                async with session.get('https://konachan.com/post/index.json{}'
-                                               .format(temp)) as resp:
-                    data = await resp.json()
-                await session.close()
-            try:
-                selected = random.randint(0, len(data))
-                url = data[selected]['file_url']
-            except Exception:
-                await context.send("We could not find any images with that tag.")
-                return
-        else:
-            await context.send("You need to be in a NSFW channel to run this command.")
-            return
-        if context.message.guild is not None:
-            color = context.message.guild.me.color
-        else:
-            color = discord.Colour.blurple()
-        embed = discord.Embed(color=color, title="Image from Konachan!",
-                              description="If you can't see the image, click the title.", url=url)
-        embed.add_field(name="Known tags: ", value="`{}`".format(self.taglistlength(data[selected]['tags'])),
-                        inline=False)
-        embed.add_field(name="Original link: ",
-                        value="[Click here](https://konachan.com/post/{})".format(data[selected]['id']),
-                        inline=True)
-        embed.set_image(url=url)
-        embed.set_footer(text="Powered by Konachan.")
-        await context.send(embed=embed)
-
-    @commands.command()
-    async def yandere(self, context, tags=None, rating=None):
-        if context.message.channel.is_nsfw():
-            if tags is None:
-                temp = "?tags=-status%3Adeleted+-loli+-shota&limit=100"
-            elif "safe".lower() in tags:
-                temp = "?tags=-status%3Adeleted+-loli+-shota+rating:s&limit=100"
-            elif "explicit".lower() in tags:
-                temp = "?tags=-status%3Adeleted+-loli+-shota+rating:e&limit=100"
-            elif "questionable".lower() in tags:
-                temp = "?tags=-status%3Adeleted+-loli+-shota+rating:q&limit=100"
-            elif "loli".lower() in tags:
-                await context.send("We can't show this as it violates Discord ToS.")
-                return
-            elif "shota".lower() in tags:
-                await context.send("We can't show this as it violates Discord ToS.")
-                return
-            else:
-                if rating is None:
-                    temp = "?tags=-status%3Adeleted+-loli+-shota+{}&limit=100".format(tags)
-                elif "safe".lower() in rating:
-                    temp = "?tags=-status%3Adeleted+-loli+-shota+{}+rating:s&limit=100".format(tags)
-                elif "explicit".lower() in rating:
-                    temp = "?tags=-status%3Adeleted+-loli+-shota+{}+rating:e&limit=100".format(tags)
-                elif "questionable".lower() in rating:
-                    temp = "?tags=-status%3Adeleted+-loli+-shota+{}+rating:q&limit=100".format(tags)
-                else:
-                    temp = "?tags=-status%3Adeleted+-loli+-shota+{}+{}&limit=100".format(tags, rating)
-            async with aiohttp.ClientSession() as session:
-                async with session.get('https://yande.re/post/index.json{}'
-                                               .format(temp)) as resp:
-                    data = await resp.json()
-                await session.close()
-            try:
-                selected = random.randint(0, len(data))
-                url = data[selected]['file_url']
-            except Exception:
-                await context.send("We could not find any images with that tag.")
-                return
-        else:
-            await context.send("You need to be in a NSFW channel to run this command.")
-            return
-        if context.message.guild is not None:
-            color = context.message.guild.me.color
-        else:
-            color = discord.Colour.blurple()
-        embed = discord.Embed(color=color, title="Image from Yande.re!",
-                              description="If you can't see the image, click the title.", url=url)
-        embed.add_field(name="Known tags: ", value="`{}`".format(self.taglistlength(data[selected]['tags'])),
-                        inline=False)
-        embed.add_field(name="Original link: ",
-                        value="[Click here](https://yande.re/post/{})".format(data[selected]['id']),
-                        inline=True)
-        embed.set_image(url=url)
-        embed.set_footer(text="Powered by Yande.re.")
-        await context.send(embed=embed)
-
-    @staticmethod
-    def rating(integer):
-        if integer == 1:
-            return "rating:s"
-        elif integer == 2:
-            return "rating:q"
-        elif integer == 3:
-            return "rating:e"
-
-    @staticmethod
-    def checktags(tagone, tagtwo):
-        if "safe".lower() in tagone or "safe".lower() in tagtwo:
-            return 1
-        elif "questionable".lower() in tagone or "questionable".lower() in tagtwo:
-            return 2
-        elif "explicit".lower() in tagone or "explicit".lower() in tagtwo:
-            return 3
-        return 0
-
-    @staticmethod
-    def nololitag(tagone, tagtwo):
-        if "loli".lower() in tagone or "loli".lower() in tagtwo:
-            return False
-        if "shota".lower() in tagone or "shota".lower() in tagtwo:
-            return False
-        return True
-
-    @staticmethod
-    def formatrating(tag):
-        if "s" in tag:
-            return "safe"
-        elif "e" in tag:
-            return "explicit"
-        elif "q" in tag:
-            return "questionable"
-
-    @staticmethod
-    def taglistlength(taglist):
-        if len(taglist) >= 1024:
-            return taglist[:1021] + "..."
-        else:
-            return taglist
-
+            await ctx.send("An error occurred while communicating with the Danbooru API.")
 
 def setup(bot):
     bot.add_cog(Image(bot))
-    bot.add_cog(DanbooruCog(bot))
+    bot.add_cog(Danbooru(bot))

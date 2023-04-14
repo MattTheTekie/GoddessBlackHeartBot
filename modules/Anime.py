@@ -9,7 +9,7 @@ from discord.ext import commands
 import xml.etree.ElementTree as ET
 
 class Anime(commands.Cog, name="Anime"):
-    '''Alles rund um Animes'''
+    '''All of the Animes'''
 
     def __init__(self, bot):
         self.bot = bot
@@ -26,27 +26,17 @@ class Anime(commands.Cog, name="Anime"):
 
     @commands.command()
     async def kawaii(self, ctx):
-        try:
-            user = ctx.message.mentions[0]
-        except Exception:
-            await ctx.send("Please specify a user.")
-            return
         url = 'https://nekos.best/api/v2/neko'
         response = requests.get(url)
         image_data = response.json()
         image_url = image_data['results'][0]['url']
-        embed = discord.Embed(title="{} Kawaii {}. Anime.".format(ctx.message.author.name, user.name))
+        embed = discord.Embed(title="Kawaii")
         embed.set_image(url=image_url)
         await ctx.send(embed=embed)
 
 
     @commands.command()
     async def nsfw(self, ctx):
-        try:
-            user = ctx.message.mentions[0]
-        except Exception:
-            await ctx.send("Please specify a user.")
-            return
         url = 'https://nekos.best/api/v2/waifu'
         response = requests.get(url)
         image_data = response.json()

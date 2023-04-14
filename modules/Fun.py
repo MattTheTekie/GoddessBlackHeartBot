@@ -42,7 +42,7 @@ class Fun(commands.Cog, name="Fun"):
     async def cats(self, ctx):
         url = 'https://cataas.com/cat'
         response = requests.get(url)
-        image_url = 'https://cataas.com' + response.content.decode('utf-8')
+        image_url = 'https://cataas.com' + response.content.decode('ISO-8859-1')
         embed = discord.Embed(title="Here's a cat.")
         embed.set_image(url=image_url)
         await ctx.send(embed=embed)

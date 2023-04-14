@@ -39,7 +39,7 @@ class Fun(commands.Cog, name="Fun"):
         await ctx.send(random.choice(random.choice(responses)))
 
     @commands.command()
-    async def cat(self, ctx):
+    async def cats(self, ctx):
         url = 'https://cataas.com/cat'
         response = requests.get(url)
         image_url = 'https://cataas.com' + response.headers['x-cataas-url']

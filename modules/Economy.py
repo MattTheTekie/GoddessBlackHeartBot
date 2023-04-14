@@ -3,8 +3,7 @@ from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
 import random
 
-##TESTING IF NAME CHANGES
-class Economy(commands.Cog, name="THE WORLDS ECONOMY IS NOW UNDER SATANS CONTROL! DONT USE IT OR PERISH!"):
+class Economy(commands.Cog, name="World economy"):
 
     def __init__(self, bot):
         self.bot = bot
@@ -12,7 +11,7 @@ class Economy(commands.Cog, name="THE WORLDS ECONOMY IS NOW UNDER SATANS CONTROL
     @commands.command()
     async def balance(self, ctx):
         if not self.bot.usedatabase:
-            await ctx.send("This command requires a running database to work. I TOLD YOU NOT TO USE IT! PERISH!")
+            await ctx.send("This command requires a running database to work.")
             return
         try:
             user = ctx.message.mentions[0]

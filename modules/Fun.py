@@ -189,21 +189,21 @@ class Fun(commands.Cog, name="Fun"):
         return image
 
     @commands.command(pass_context=True, aliases=['achievement', 'ach'])
-    async def mc(self, ctx, *, txt:str):
-        """Generate a Minecraft Achievement"""
-        api = "https://mcgen.herokuapp.com/a.php?i=1&h=Achievement-{0}&t={1}".format(ctx.message.author.name, txt)
+async def mc(self, ctx, *, txt:str):
+    """Generate a Minecraft Achievement"""
+    api = "https://skinmc.net/en/achievement/{0}/Achievement+Get%21/{1}".format(ctx.message.author.name, txt.replace(" ", "+"))
+    b = await self.bot.bytes_download(api)
+    i = 0
+    while sys.getsizeof(b) == 88 and i != 10:
         b = await self.bot.bytes_download(api)
-        i = 0
-        while sys.getsizeof(b) == 88 and i != 10:
-            b = await self.bot.bytes_download(api)
-            if sys.getsizeof(b) != 0:
-                i = 10
-            else:
-                i += 1
-        if i == 10 and sys.getsizeof(b) == 88:
-            await self.bot.say("Minecraft Achievement Generator API is bad, pls try again")
+        if sys.getsizeof(b) != 0:
+            i = 10
+        else:
+            i += 1
+    if i == 10 and sys.getsizeof(b) == 88:
+        await ctx.send("Minecraft Achievement Generator API is bad, pls try again")
         return
-        await self.bot.upload(b, filename='achievement.png')
+    await ctx.send(file=discord.File(fp=io.BytesIO(b), filename='achievement.png'))
 
 def setup(bot):
     bot.add_cog(Fun(bot))

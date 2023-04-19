@@ -74,12 +74,6 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def finished(self, ctx):
-        embed = discord.Embed(color=discord.Colour.red(), title="YOU'RE FINISHED!")
-        embed.set_image(url="https://n3rdp0rt4l-hq.gitlab.io/n3rdp0rt4l/bg.gif")
-        await ctx.send(embed=embed)
-
-    @commands.command()
     async def chrome(self, ctx):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
 
@@ -90,26 +84,24 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def chrome(self, ctx):
-        await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
-async def ai(ctx, *, prompt:str):
-    prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
-    url = 'https://api.pawan.krd/v1/completions'
-    headers = {
-        'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
-        'Content-Type': 'application/json'
-    }
-    data = {
-        "prompt": prompt,
-        "model": "gpt-3.5-turbo",
-        "temperature": 0.7,
-        "max_tokens": 256,
-        "stop": ["\n"]
-    }
-    response = requests.post(url, headers=headers, json=data)
-    json_response = response.json()
-    ai_response = json_response[0]['text']
-    await ctx.send(f"AI: {ai_response}")
+    async def ai(self, ctx, *, prompt:str):
+        prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
+        url = 'https://api.pawan.krd/v1/completions'
+        headers = {
+            'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
+            'Content-Type': 'application/json'
+        }
+        data = {
+            "prompt": prompt,
+            "model": "gpt-3.5-turbo",
+            "temperature": 0.7,
+            "max_tokens": 256,
+            "stop": ["\n"]
+        }
+        response = requests.post(url, headers=headers, json=data)
+        json_response = response.json()
+        ai_response = json_response[0]['text']
+        await ctx.send(f"AI: {ai_response}")
 
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

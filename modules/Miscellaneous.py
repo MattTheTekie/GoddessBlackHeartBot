@@ -98,26 +98,23 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
         url = 'https://api.pawan.krd/v1/completions'
         headers = {
-        'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
-        'Content-Type': 'application/json'
-    }
+            'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
+            'Content-Type': 'application/json'
+        }
         data = {
-        "model": "gpt-3.5-turbo",
-        "prompt": prompt,
-        "temperature": 0.7,
-        "max_tokens": 256,
-        "stop": [
-            "Human:",
-            "AI:"
-        ]
-    }
-    response = requests.post(url, headers=headers, json=data)
-    try:
-        response_data = response.json()
+            "model": "gpt-3.5-turbo",
+            "prompt": prompt,
+            "temperature": 0.7,
+            "max_tokens": 256,
+            "stop": [
+                "Human:",
+                "AI:"
+            ]
+        }
+        response = requests.post(url, headers=headers, json=data)
+        response_data = json.loads(response.text)
         ai_response = response_data['choices'][0]['text']
         await ctx.send(ai_response)
-    except (json.JSONDecodeError, KeyError):
-        await ctx.send("Sorry, I couldn't generate a response for that prompt. Please try again later.")
 
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

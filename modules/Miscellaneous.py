@@ -90,7 +90,6 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
             await ctx.send(f'```{output_str}```')
             await ctx.send('✅ command **`{}`** ran'.format(cmd))
         except subprocess.CalledProcessError as exc:
-            await ctx.send(f'❌ echo test **`{cmd}`** failed with exit code {exc.returncode}:\n```{exc.output.decode("utf-8")}```')
-
+            await ctx.send(f'❌ command **`echo test`** failed with exit code {exc.returncode}:\n```{exc.output.decode("utf-8")}```')
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

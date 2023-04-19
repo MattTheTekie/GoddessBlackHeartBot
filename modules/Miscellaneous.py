@@ -90,13 +90,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         "Human:",
         "AI:"
     ]
-}\' | grep "text"'''
-        try:
-            result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
-            await ctx.send(f"```\n{result}\n```")
-        except subprocess.CalledProcessError as exc:
-            await ctx.send(f"Command failed with exit code {exc.returncode}: ```\n{exc.output}\n```")
-
+}\' | grep -o \'"text":"[^"]*"\''''
 
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

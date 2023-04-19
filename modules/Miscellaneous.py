@@ -12,7 +12,6 @@ import requests
 import subprocess
 
 class Miscellaneous(commands.Cog, name="Miscellaneous"):
-
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession()
@@ -85,6 +84,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         embed.set_image(url="https://n3rdp0rt4l-hq.gitlab.io/n3rdp0rt4l/bg.gif")
         await ctx.send(embed=embed)
 
+@commands.command()
 async def ai(self, ctx, *, prompt:str):
     prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
     url = 'https://api.pawan.krd/v1/completions'

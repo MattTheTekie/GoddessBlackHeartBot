@@ -111,10 +111,13 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
             "AI:"
         ]
     }
-        response = requests.post(url, headers=headers, json=data)
+    response = requests.post(url, headers=headers, json=data)
+    try:
         response_data = response.json()
         ai_response = response_data['choices'][0]['text']
         await ctx.send(ai_response)
+    except (json.JSONDecodeError, KeyError):
+        await ctx.send("Sorry, I couldn't generate a response for that prompt. Please try again later.")
 
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

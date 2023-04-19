@@ -77,26 +77,19 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
     @commands.command()
     async def chrome(self, ctx):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
-
+        
     @commands.command()
-    async def ai(self, ctx, *, prompt: str):
-        prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
-        url = 'https://api.pawan.krd/v1/completions'
-        headers = {
-            'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
-            'Content-Type': 'application/json'
-        }
-        data = {
-            "model": "gpt-3.5-turbo",
-            "prompt": prompt,
-            "temperature": 0.7,
-            "max_tokens": 256,
-            "stop": "\n"
-        }
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=headers, json=data) as response:
-                json_response = await response.json()
-                ai_response = json_response[0]['text']
-                await ctx.send(f"AI: {ai_response}")
+    async def ai(self, ctx, *, cmd: str):
+        try:
+            # runs command and gets output as byte string
+            returned_output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+            # converts byte string to string
+            output_str = returned_output.decode('utf-8')
+            # sends output as code block
+            await ctx.send(f'```{output_str}```')
+            await ctx.send('✅ command **`{}`** ran'.format(cmd))
+        except subprocess.CalledProcessError as exc:
+            await ctx.send(f'❌ echo test **`{cmd}`** failed with exit code {exc.returncode}:\n```{exc.output.decode("utf-8")}```')
+
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

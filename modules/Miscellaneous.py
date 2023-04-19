@@ -15,6 +15,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
 
     def __init__(self, bot):
         self.bot = bot
+        self.session = aiohttp.ClientSession()
 
     @commands.command()
     async def uptime(self, ctx):
@@ -84,26 +85,24 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         embed.set_image(url="https://n3rdp0rt4l-hq.gitlab.io/n3rdp0rt4l/bg.gif")
         await ctx.send(embed=embed)
 
-    @commands.command()
-    async def ai(self, ctx, *, prompt):
-        prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
-        url = 'https://api.pawan.krd/v1/completions'
-        headers = {
-            'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
-            'Content-Type': 'application/json'
-        }
-        data = {
-            "prompt": prompt,
-            "model": "gpt-3.5-turbo",
-            "temperature": 0.7,
-            "max_tokens": 256,
-            "stop": ["\n"]
-        }
-        async with self.session.post(url, headers=headers, json=data) as response:
-            json_response = await response.json()
-            ai_response = json_response[0]['text']
-            for chunk in [ai_response[i:i+2000] for i in range(0, len(ai_response), 2000)]:
-                await ctx.send(f"AI: {chunk}")
-
+async def ai(self, ctx, *, prompt:str):
+    prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
+    url = 'https://api.pawan.krd/v1/completions'
+    headers = {
+        'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
+        'Content-Type': 'application/json'
+    }
+    data = {
+        "prompt": prompt,
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.7,
+        "max_tokens": 256,
+        "stop": ["\n"]
+    }
+    async with self.session.post(url, headers=headers, json=data) as response:
+        json_response = await response.json()
+        ai_response = json_response[0]['text']
+        await ctx.send(f"AI: {ai_response}")
+        
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

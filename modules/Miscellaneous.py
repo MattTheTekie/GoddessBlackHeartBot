@@ -79,17 +79,12 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
     async def chrome(self, ctx):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
         
-    @commands.command()
-    async def ai(self, ctx, *, cmd: str):
-        try:
-            # runs command and gets output as byte string
-            returned_output = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-            # converts byte string to string
-            output_str = returned_output.decode('utf-8')
-            # sends output as code block
-            await ctx.send(f'```{output_str}```')
-            await ctx.send('✅ command **`{}`** ran'.format(cmd))
-        except subprocess.CalledProcessError as exc:
-            await ctx.send(f'❌ command **`echo test`** failed with exit code {exc.returncode}:\n```{exc.output.decode("utf-8")}```')
-def setup(bot):
+@commands.command()
+@commands.is_owner()
+async def cmd(self, ctx, *, text: str):
+    if ctx.author.id in AJW_Admins:
+        # echo user input back to the channel
+        await ctx.send(text)
+        await ctx.send('✅ Text echoed')
+              
     bot.add_cog(Miscellaneous(bot))

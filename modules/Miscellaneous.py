@@ -80,10 +80,10 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
         
     @commands.command()        
-    async def ai(self, ctx):
+    async def ai(self, ctx, *, input_text):
         cmd = '''curl -s --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{
     "model": "gpt-3.5-turbo",
-    "prompt": "Human: Hello\\nAI:",
+    "prompt": "{input_text}",
     "temperature": 0.7,
     "max_tokens": 256,
     "stop": [

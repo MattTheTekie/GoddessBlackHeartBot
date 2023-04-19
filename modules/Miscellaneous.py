@@ -81,16 +81,16 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         
     @commands.command()        
     async def ai(self, ctx, *, input_text):
-        cmd = '''curl -s --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{
+        cmd = f'''curl -s --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{{
     "model": "gpt-3.5-turbo",
-    "prompt": "Human: {input_text}\\nAI:",
+    "prompt": "{input_text}\\nAI:",
     "temperature": 0.7,
     "max_tokens": 256,
     "stop": [
         "Human:",
         "AI:"
     ]
-}\' | grep -o \'"text":"[^"]*"\''''
+}}\' | grep -o \'"text":"[^"]*"\''' | cut -d '"' -f 4
         try:
             result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
             await ctx.send(f"```\n{result}\n```")

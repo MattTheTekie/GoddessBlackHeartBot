@@ -9,6 +9,7 @@ from datetime import timedelta
 import aiohttp
 import random
 import requests
+import subprocess
 
 class Miscellaneous(commands.Cog, name="Miscellaneous"):
 
@@ -84,24 +85,14 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def ai(self, ctx, *, prompt:str):
+    async def ai(self, ctx, *, prompt: str):
         prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
-        url = 'https://api.pawan.krd/v1/completions'
-        headers = {
-            'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
-            'Content-Type': 'application/json'
-        }
-        data = {
-            "prompt": prompt,
-            "model": "gpt-3.5-turbo",
-            "temperature": 0.7,
-            "max_tokens": 256,
-            "stop": ["\n"]
-        }
-        response = requests.post(url, headers=headers, json=data)
-        json_response = response.json()
-        ai_response = json_response[0]['text']
-        await ctx.send(f"AI: {ai_response}")
+        cmd = f'curl --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{{"model": "gpt-3.5-turbo", "prompt": "{prompt}", "temperature": 0.7, "max_tokens": 256, "stop": ["Human:", "AI:"]}}\''
+        try:
+            result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
+            await ctx.send(f"```\n{result}\n```")
+        except subprocess.CalledProcessError as exc:
+            await ctx.send(f"Command failed with exit code {exc.returncode}: ```\n{exc.output}\n```")
 
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

@@ -92,8 +92,8 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
     @commands.command()
     async def chrome(self, ctx):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
-
-@client.slash_command()
+        
+@bot.slash_command()
 async def ai(ctx, *, prompt:str):
     prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
     url = 'https://api.pawan.krd/v1/completions'

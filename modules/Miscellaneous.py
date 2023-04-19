@@ -83,6 +83,29 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
     async def chrome(self, ctx):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
 
+    @client.slash_command()
+    async def ai(ctx, *, prompt:str):
+    prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
+    url = 'https://api.pawan.krd/v1/completions'
+    headers = {
+        'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
+        'Content-Type': 'application/json'
+    }
+    data = {
+        "model": "gpt-3.5-turbo",
+        "prompt": prompt,
+        "temperature": 0.7,
+        "max_tokens": 256,
+        "stop": [
+            "Human:",
+            "AI:"
+        ]
+    }
+    response = requests.post(url, headers=headers, json=data)
+    response_data = response.json()
+    ai_response = response_data['choices'][0]['text']
+    await ctx.send(ai_response)
+        
     @commands.command()
     async def weather(self, ctx, *, location: str):
         url = f"https://wttr.in/{location}?format=%C\n%t\n%h\n%w\n"

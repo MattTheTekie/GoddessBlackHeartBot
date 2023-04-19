@@ -10,6 +10,7 @@ import aiohttp
 import random
 import requests
 import asyncio
+import subprocess
 
 class Miscellaneous(commands.Cog, name="Miscellaneous"):
 

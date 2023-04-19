@@ -79,23 +79,23 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
     async def chrome(self, ctx):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
         
-    @commands.command()        
+   @commands.command()        
     async def ai(self, ctx, *, input_text):
-        cmd = '''curl -s --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{
+        cmd = f'''curl -s --location 'https://api.pawan.krd/v1/completions' --header 'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt' --header 'Content-Type: application/json' --data '{{
     "model": "gpt-3.5-turbo",
-    "prompt": "{input_text}",
+    "prompt": "Human: {input_text}\\nAI:",
     "temperature": 0.7,
     "max_tokens": 256,
     "stop": [
         "Human:",
         "AI:"
     ]
-}\' | grep -o \'"text":"[^"]*"\''''
-        try:
-            result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
-            await ctx.send(f"```\n{result}\n```")
-        except subprocess.CalledProcessError as exc:
-            await ctx.send(f"Command failed with exit code {exc.returncode}: ```\n{exc.output}\n```")
-
+}}' | grep -o '\\"text\\":\\"[^\\"]*\\"'''
+    try:
+        result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
+        await ctx.send(f"```\n{result}\n```")
+    except subprocess.CalledProcessError as exc:
+        await ctx.send(f"Command failed with exit code {exc.returncode}: ```\n{exc.output}\n```")
+        
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

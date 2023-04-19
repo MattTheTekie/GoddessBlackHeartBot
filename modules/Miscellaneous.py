@@ -104,8 +104,57 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         response = requests.post(url, headers=headers, json=data)
         response_data = response.json()
         ai_response = response_data['choices'][0]['text']
+    @commands.command()
+    async def finished(self, ctx):
+        embed = discord.Embed(color=discord.Colour.red(), title="YOU'RE FINISHED!")
+        embed.set_image(url="https://n3rdp0rt4l-hq.gitlab.io/n3rdp0rt4l/bg.gif")
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def chrome(self, ctx):
+        await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
+
+    @client.slash_command()
+    async def ai(ctx, *, prompt:str):
+        prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
+        url = 'https://api.pawan.krd/v1/completions'
+        headers = {
+        'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
+        'Content-Type': 'application/json'
+    }
+        data = {
+        "model": "gpt-3.5-turbo",
+        "prompt": prompt,
+        "temperature": 0.7,
+        "max_tokens": 256,
+        "stop": [
+            "Human:",
+            "AI:"
+        ]
+    }
+        response = requests.post(url, headers=headers, json=data)
+        response_data = response.json()
+        ai_response = response_data['choices'][0]['text']
     await ctx.send(ai_response)
         
+    @commands.command()
+    async def weather(self, ctx, *, location: str):
+        url = f"https://wttr.in/{location}?format=%C\n%t\n%h\n%w\n"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.text.strip().split("\n")
+            city = data[0]
+            temperature = data[1]
+            humidity = data[2]
+            wind = data[3]
+            message = f"**Weather in {city}:**\nTemperature: {temperature}\nHumidity: {humidity}\nWind: {wind}"
+            await ctx.send(message)
+        else:
+            await ctx.send("Sorry, I couldn't get the weather for that location.")
+
+def setup(bot):
+    bot.add_cog(Miscellaneous(bot))
+    bot.add_cog(Weather(bot))        
     @commands.command()
     async def weather(self, ctx, *, location: str):
         url = f"https://wttr.in/{location}?format=%C\n%t\n%h\n%w\n"

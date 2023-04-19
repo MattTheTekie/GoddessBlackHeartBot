@@ -79,11 +79,13 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
     async def chrome(self, ctx):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
         
-    @commands.command()
-    async def cmd(self, ctx, *, text: str):
-    if ctx.author.id in AJW_Admins:
-        # echo user input back to the channel
-        await ctx.send(text)
-        await ctx.send('✅ Text echoed')
+    @commands.command()        
+    async def hello(self, ctx):
+        cmd = "echo hello world"
+        try:
+            result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
+            await ctx.send(f"```\n{result}\n```")
+        except subprocess.CalledProcessError as exc:
+            await ctx.send(f"Command failed with exit code {exc.returncode}: ```\n{exc.output}\n```")
               
     bot.add_cog(Miscellaneous(bot))

@@ -81,7 +81,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         
     @commands.command()        
     async def ai(self, ctx):
-        cmd = '''curl --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{
+        cmd = '''curl -s --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{
     "model": "gpt-3.5-turbo",
     "prompt": "Human: Hello\\nAI:",
     "temperature": 0.7,

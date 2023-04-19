@@ -84,15 +84,16 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         embed.set_image(url="https://n3rdp0rt4l-hq.gitlab.io/n3rdp0rt4l/bg.gif")
         await ctx.send(embed=embed)
 
-        @commands.command()
+    @commands.command()
+    
     async def ai(self, ctx, *, prompt:str):
-    prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
-    url = 'https://api.pawan.krd/v1/completions'
-    headers = {
+        prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
+        url = 'https://api.pawan.krd/v1/completions'
+        headers = {
         'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
         'Content-Type': 'application/json'
     }
-    data = {
+        data = {
         "prompt": prompt,
         "model": "gpt-3.5-turbo",
         "temperature": 0.7,

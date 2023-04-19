@@ -79,9 +79,8 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
     async def chrome(self, ctx):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
         
-@commands.command()
-@commands.is_owner()
-async def cmd(self, ctx, *, text: str):
+    @commands.command()
+    async def cmd(self, ctx, *, text: str):
     if ctx.author.id in AJW_Admins:
         # echo user input back to the channel
         await ctx.send(text)

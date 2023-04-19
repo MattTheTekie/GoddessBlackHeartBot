@@ -113,7 +113,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         }
         response = requests.post(url, headers=headers, json=data)
         response_data = json.loads(response.text)
-        ai_response = response_data['choices'][0]['text']
+        ai_response = response_data[0]['text']
         await ctx.send(ai_response)
 
 def setup(bot):

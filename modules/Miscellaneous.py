@@ -80,7 +80,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
         
     @commands.command()        
-    async def hello(self, ctx):
+    async def ai(self, ctx):
         cmd = "echo hello world"
         try:
             result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)

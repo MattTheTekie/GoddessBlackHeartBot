@@ -78,7 +78,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
 
     @commands.command()
-    async def ai(self, ctx, *, prompt:str):
+    async def ai(self, ctx, *, prompt: str):
         prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
         url = 'https://api.pawan.krd/v1/completions'
         headers = {
@@ -86,19 +86,16 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
             'Content-Type': 'application/json'
         }
         data = {
-            "prompt": prompt,
             "model": "gpt-3.5-turbo",
+            "prompt": prompt,
             "temperature": 0.7,
             "max_tokens": 256,
-            "stop": ["\n"]
+            "stop": "\n"
         }
-        async with self.session.post(url, headers=headers, json=data) as response:
-            json_response = await response.json()
-            ai_response = json_response[0]['text']
-            await ctx.send(f"AI: {ai_response}")
-
-    def cog_unload(self):
-        asyncio.ensure_future(self.session.close())
-
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=headers, json=data) as response:
+                json_response = await response.json()
+                ai_response = json_response[0]['text']
+                await ctx.send(f"AI: {ai_response}")
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

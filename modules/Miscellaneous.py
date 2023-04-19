@@ -16,7 +16,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
 
     def __init__(self, bot):
         self.bot = bot
-        self.session = aiohttp.ClientSession()
+        
     @commands.command()
     async def uptime(self, ctx):
         delta_uptime = datetime.utcnow() - self.bot.launch_time

@@ -94,27 +94,24 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
 
     @commands.command()
-    async def ai(self, ctx, *, prompt: str):
+    async def ai(ctx, *, prompt:str):
         prompt = f"Human: {ctx.author.display_name}: {prompt}\nAI:"
         url = 'https://api.pawan.krd/v1/completions'
         headers = {
-            'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
-            'Content-Type': 'application/json'
-        }
+        'Authorization': 'Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt',
+        'Content-Type': 'application/json'
+    }
         data = {
-            "model": "gpt-3.5-turbo",
-            "prompt": prompt,
-            "temperature": 0.7,
-            "max_tokens": 256,
-            "stop": [
-                "Human:",
-                "AI:"
-            ]
-        }
+        "prompt": prompt,
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.7,
+        "max_tokens": 256,
+        "stop": ["\n"]
+    }
         response = requests.post(url, headers=headers, json=data)
-        response_data = json.loads(response.text)
-        ai_response = response_data[text]
-        await ctx.send(ai_response)
+        json_response = response.json()
+        ai_response = json_response[0]['text']
+    await ctx.send(f"AI: {ai_response}")
 
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

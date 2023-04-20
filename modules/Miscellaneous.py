@@ -80,17 +80,17 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
         
     @commands.command()        
-    async def ai(self, ctx, *, input_text):
-        cmd = f'''curl -s --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{{
+    async def ai(self, ctx):
+        cmd = '''curl -s --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{
     "model": "gpt-3.5-turbo",
-    "prompt": "{input_text}\\nAI:",
+    "prompt": "Human: Hello\\nAI:",
     "temperature": 0.7,
     "max_tokens": 256,
     "stop": [
         "Human:",
         "AI:"
     ]
-}}\' | grep -o \'"text":"[^"]*"\''' | cut -d '"' -f 4
+}\' | grep -o \'"text":"[^"]*"\''''
         try:
             result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
             await ctx.send(f"```\n{result}\n```")

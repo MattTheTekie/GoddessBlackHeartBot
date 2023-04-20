@@ -78,16 +78,17 @@ class Admin(commands.Cog, name="Admin"):
             os.remove(file)
         await ctx.send('✅ removed **`{}`**'.format(file))
 
+# Define the command
     @commands.command()
     @commands.check(lambda ctx: ctx.author.id in AJW_Admins)
-    async def cmd(self, ctx, cmd: str):
-            '''Runs command from the computers command and directs the output to Discord'''
-        # returns output as byte string
-        returned_output = subprocess.check_output(cmd, shell=True)
+    async def cmd(ctx, *, command: str):
+    '''Runs command from the computer's command line and directs the output to Discord'''
+    # Returns output as byte string
+    returned_output = subprocess.check_output(command, shell=True)
         
-        # using decode() function to convert byte string to string
-        await ctx.send(f'```py\n{returned_output}\b```')
-        await ctx.send('✅ command **`{}`** ran'.format(cmd))
+    # Using decode() function to convert byte string to string
+    await ctx.send(f'```py\n{returned_output.decode()}\n```')
+    await ctx.send(f'✅ Command `{command}` ran successfully.')
 
     @commands.command()
     @commands.is_owner()

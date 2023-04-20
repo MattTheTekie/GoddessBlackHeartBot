@@ -12,7 +12,7 @@ import requests
 import asyncio
 import subprocess
 
-class Stuff(commands.Cog, name="Stuff"):
+class AI(commands.Cog, name="AI"):
 
     def __init__(self, bot):
         self.bot = bot
@@ -78,4 +78,4 @@ class Stuff(commands.Cog, name="Stuff"):
         await message.channel.send(response.choices[0].text)
 
 def setup(bot):
-    bot.add_cog(Stuff(bot))
+    bot.add_cog(AI(bot))

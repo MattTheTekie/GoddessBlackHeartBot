@@ -83,7 +83,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
     async def ai(self, ctx):
         cmd = '''curl -s --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{
     "model": "gpt-3.5-turbo",
-    "prompt": "Human: Hello\\nAI:",
+    "prompt": "Human: Richard Stallman\\nAI:",
     "temperature": 0.7,
     "max_tokens": 256,
     "stop": [

@@ -84,7 +84,7 @@ class Admin(commands.Cog, name="Admin"):
             '''Runs command from the computers command and directs the output to Discord'''
         # returns output as byte string
         returned_output = subprocess.check_output(cmd, shell=True)
-
+        
         # using decode() function to convert byte string to string
         await ctx.send(f'```py\n{returned_output}\b```')
         await ctx.send('✅ command **`{}`** ran'.format(cmd))

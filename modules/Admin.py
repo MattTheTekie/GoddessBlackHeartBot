@@ -79,9 +79,8 @@ class Admin(commands.Cog, name="Admin"):
         await ctx.send('✅ removed **`{}`**'.format(file))
 
     @commands.command()
-    @commands.is_owner()
+    @commands.check(lambda ctx: ctx.author.id in AJW_Admins)
     async def cmd(self, ctx, cmd: str):
-        if ctx.author.id in AJW_Admins:
             '''Runs command from the computers command and directs the output to Discord'''
         # returns output as byte string
         returned_output = subprocess.check_output(cmd, shell=True)

@@ -1,6 +1,6 @@
 {
-  "weather": "Shows the weather."
-  "cats": "Gives you cat's."
+  "weather": "Shows the weather.",
+  "cats": "Gives you cat's.",
   "example": "You shouldn't be seeing this for any reason.",
   "image": "This is the images section.",
   "konachan": "Searches for an image on Konachan. Can only be used in NSFW channels. \n\n``x!konachan`` - Gets a random image from Konachan. \n\n``x!konachan [tag] [tag]`` - Gets an image with the specified tag(s). Ratings can also be specified (safe, questionable, or explicit).",

@@ -9,6 +9,11 @@ from clint.textui import progress
 import requests
 import subprocess
 
+intents = discord.Intents(messages=True, guilds=True)
+intents = discord.Intents.default()
+intents.typing = True
+intents.presences = True
+
 # Authorized User_ID's
 #AJW_Admins = (219220084982415362, 318528448320634881, 217408285542842368, 617456938904453190, 310496481435975693, 542505944223973377, 253864655556968448, 530918840469684225)
 # Authorized User IDs

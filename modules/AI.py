@@ -24,7 +24,7 @@ class AI(commands.Cog, name="AI"):
         }
         data = {
             'model': 'text-davinci-002',
-            'prompt': f'{prompt}\nAI:',
+            'prompt': f'"{prompt}"\nAI:',
             'temperature': 0.7,
             'max_tokens': 256,
             'stop': ['Human:', 'AI:']
@@ -41,7 +41,7 @@ class AI(commands.Cog, name="AI"):
                     await ctx.send(f"Command failed with status code {response.status}")
 
     async def get_user_input(self, ctx):
-        message = await ctx.send("Please provide your input:")
+        # message = await ctx.send("Please provide your input:")
         def check(m):
             return m.author == ctx.author and m.channel == ctx.channel
         user_input_msg = await self.bot.wait_for('message', check=check)

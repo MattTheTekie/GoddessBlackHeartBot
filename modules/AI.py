@@ -30,9 +30,14 @@ class AI(commands.Cog, name="AI"):
                 'stop': ['Human:', 'AI:']
             }
 
+            def check(m):
+                return m.author == ctx.author and m.channel == ctx.channel
+
+            user_input_msg = await self.bot.wait_for('message', check=check)
+            user_input = user_input_msg.content
+            data['prompt'] = f'{prompt}\nUser: {user_input}\nAI:'
+
             async with aiohttp.ClientSession() as session:
-                user_input = await self.get_user_input(ctx)
-                data['prompt'] = f'{prompt}\nUser: {user_input}\nAI:'
                 async with session.post('https://api.pawan.krd/v1/completions', headers=headers, json=data) as response:
                     if response.status == 200:
                         result = await response.json()
@@ -40,12 +45,6 @@ class AI(commands.Cog, name="AI"):
                         await ctx.send(f"```\n{text}\n```")
                     else:
                         await ctx.send(f"Command failed with status code {response.status}")
-
-    async def get_user_input(self, ctx):
-        def check(m):
-            return m.author == ctx.author and m.channel == ctx.channel
-        user_input_msg = await self.bot.wait_for('message', check=check)
-        return user_input_msg.content
 
 def setup(bot):
     bot.add_cog(AI(bot))

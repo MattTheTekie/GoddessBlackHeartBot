@@ -82,7 +82,6 @@ class Admin(commands.Cog, name="Admin"):
     @commands.command()
     @commands.check(lambda ctx: ctx.author.id in AJW_Admins)
     async def cmd(ctx, *, command: str):
-    '''Runs command from the computer's command line and directs the output to Discord'''
     # Returns output as byte string
     returned_output = subprocess.check_output(command, shell=True)
         

@@ -9,8 +9,9 @@ from clint.textui import progress
 import requests
 import subprocess
 
-intents = discord.Intents(messages=True, guilds=True)
-intents = discord.Intents.default()
+intents = discord.Intents(messages=True, guilds=True, members=True)
+#intents = discord.Intents.default()
+#intents = discord.Intents.members()
 intents.typing = True
 intents.presences = True
 

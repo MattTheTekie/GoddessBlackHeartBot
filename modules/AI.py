@@ -57,9 +57,9 @@ class AI(commands.Cog, name="AI"):
 
     def get_ai_model(self):
         if self.anime_character:
-            return "openai:text-davinci-003"
+            return "openai/text-davinci-003"
         else:
-            return "openai:text-davinci-002"
+            return "openai:gpt-3.5-turbo"
 
 def setup(bot):
     bot.add_cog(AI(bot))

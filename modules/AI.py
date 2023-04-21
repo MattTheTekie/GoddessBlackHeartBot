@@ -35,7 +35,7 @@ class AI(commands.Cog, name="AI"):
             
             async with ctx.typing():
                 async with session.post('https://api.pawan.krd/v1/completions', headers=headers, json=data) as response:
-                    if response.status == 400:
+                    if response.status == 200:
                         result = await response.json()
                         text = result['choices'][0]['text']
                         await ctx.send(f"```\n{text}\n```")

@@ -5,6 +5,7 @@ A Modified Version of the Axiro Discord Bot
 You can join the official server or invite the bot to your own server through the provided link.
 
 Features:
+- OpenAI (ChatGPT no cooldowns)
 - Basic encryption, decryption, and hash
 - Anime-related content
 - Cats for all
@@ -24,3 +25,4 @@ To-Do:
 - Build the music module
 - Add more cool bot functions/features
 - Complete the Encryption module
+~~- OpenAI (ChatGPT no cooldowns)~~

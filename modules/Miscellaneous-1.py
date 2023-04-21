@@ -49,76 +49,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         if not ctx.message.channel.permissions_for(ctx.message.author.guild.me).manage_nicknames:
             await ctx.send(":x: I do not have permission to edit nicknames.")
             return
-        try:import discord
-
-from discord.ext import commands
-
-import openai
-
-class Miscellaneous(commands.Cog, name="Miscellaneous"):
-
-    def __init__(self, bot):
-
-        self.bot = bot
-
-        openai.api_key = "pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt"
-
-    @commands.command()
-
-    async def uptime(self, ctx):
-
-        # ...existing code for this command...
-
-    @commands.command()
-
-    async def winner(self, ctx):
-
-        # ...existing code for this command...
-
-    # ...existing code for other commands...
-
-    @bot.event
-
-    async def on_message(self, message):
-
-        # Only respond to messages from other users, not from the bot itself
-
-        if message.author == self.bot.user:
-
-            return
-
-        
-
-        # Use the OpenAI API to generate a response to the message
-
-        response = openai.Completion.create(
-
-            engine="text-davinci-002",
-
-            prompt=f"{message.content}",
-
-            max_tokens=2048,
-
-            temperature=0.5,
-
-            model="text-davinci-003",
-
-            top_p=1,
-
-            frequency_penalty=0,
-
-            presence_penalty=0,
-
-        )
-
-        # Send the response as a message
-
-        await message.channel.send(response.choices[0].text)
-
-def setup(bot):
-
-    bot.add_cog(Miscellaneous(bot))
-            await user.edit(nick="Donald Drumpf")
+        try:            await user.edit(nick="Donald Drumpf")
         except discord.Forbidden:
             await ctx.send("I do not have permission to do that.")
             return
@@ -147,23 +78,5 @@ def setup(bot):
     async def chrome(self, ctx):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
         
-    @commands.command()        
-    async def ai(self, ctx):
-        cmd = '''curl -s --location \'https://api.pawan.krd/v1/completions\' --header \'Authorization: Bearer pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt\' --header \'Content-Type: application/json\' --data \'{
-    "model": "gpt-3.5-turbo",
-    "prompt": "Human: Richard Stallman\\nAI:",
-    "temperature": 0.7,
-    "max_tokens": 256,
-    "stop": [
-        "Human:",
-        "AI:"
-    ]
-}\' | grep -o \'"text":"[^"]*"\''''
-        try:
-            result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
-            await ctx.send(f"```\n{result}\n```")
-        except subprocess.CalledProcessError as exc:
-            await ctx.send(f"Command failed with exit code {exc.returncode}: ```\n{exc.output}\n```")
-
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))

@@ -3,10 +3,6 @@ import discord
 from discord.ext import commands
 import aiohttp
 
-class AI2(commands.Cog, name="AI2"):
-    def __init__(self, bot):
-        self.bot = bot
-        self.prompt_history = {} # stores the prompt history for each user
 
 class AI2(commands.Cog, name="AI2"):
     def __init__(self, bot):

@@ -14,6 +14,8 @@ class AI(commands.Cog, name="AI"):
     def __init__(self, bot):
         self.bot = bot
         self.openai_token = "pk-lqRPVysXvAPeooisGFSZkNLzVGamczCHbarsOnAoEVzlhpPt"
+        self.character_mode = False
+        self.character_name = ""
 
     @commands.command()
     async def ai(self, ctx, *, prompt: str):
@@ -21,6 +23,7 @@ class AI(commands.Cog, name="AI"):
             'Authorization': f'Bearer {self.openai_token}',
             'Content-Type': 'application/json'
         }
+
         data = {
             'model': 'text-davinci-003',
             'prompt': f'"{prompt}"\nAI:',
@@ -29,16 +32,27 @@ class AI(commands.Cog, name="AI"):
             'stop': ['Human:', 'AI:']
         }
 
+        if self.character_mode:
+            data['prompt'] = f'{prompt}\n{self.character_name}:'
+        else:
+            data['prompt'] = f'{prompt}\nAI:'
+
         async with aiohttp.ClientSession() as session:
             user_input = await self.get_user_input(ctx)
-            data['prompt'] = f'{prompt}\nUser: {user_input}\nAI:'
-            
+            if self.character_mode:
+                data['prompt'] = f'{prompt}\n{self.character_name}: {user_input}\n{self.character_name}:'
+            else:
+                data['prompt'] = f'{prompt}\nUser: {user_input}\nAI:'
+
             async with ctx.typing():
                 async with session.post('https://api.pawan.krd/v1/completions', headers=headers, json=data) as response:
                     if response.status == 200:
                         result = await response.json()
                         text = result['choices'][0]['text']
-                        await ctx.send(f"```\n{text}\n```")
+                        if self.character_mode:
+                            await ctx.send(f"{self.character_name}: {text}")
+                        else:
+                            await ctx.send(f"```\n{text}\n```")
                     else:
                         await ctx.send(f"Command failed with status code {response.status}")
 
@@ -47,6 +61,18 @@ class AI(commands.Cog, name="AI"):
             return m.author == ctx.author and m.channel == ctx.channel
         user_input_msg = await self.bot.wait_for('message', check=check)
         return user_input_msg.content
+
+    @commands.command()
+    async def charactermode(self, ctx, name: str):
+        self.character_mode = True
+        self.character_name = name
+        await ctx.send(f"Now in character mode as {self.character_name}.")
+
+    @commands.command()
+    async def normalmode(self, ctx):
+        self.character_mode = False
+        self.character_name = ""
+        await ctx.send("Now in normal mode.")
 
 def setup(bot):
     bot.add_cog(AI(bot))

@@ -18,6 +18,7 @@ class AI(commands.Cog, name="AI"):
         self.character_name = ""
 
     @commands.command()
+    @commands.before_invoke(get_user_input)
     async def ai(self, ctx, *, prompt: str):
         headers = {
             'Authorization': f'Bearer {self.openai_token}',
@@ -38,13 +39,13 @@ class AI(commands.Cog, name="AI"):
             data['prompt'] = f'{prompt}\nAI:'
 
         async with aiohttp.ClientSession() as session:
-            user_input = await self.get_user_input(ctx)
-            if self.character_mode:
-                data['prompt'] = f'{prompt}\n{self.character_name}: {user_input}\n{self.character_name}:'
-            else:
-                data['prompt'] = f'{prompt}\nUser: {user_input}\nAI:'
-
             async with ctx.typing():
+                user_input = await self.get_user_input(ctx)
+                if self.character_mode:
+                    data['prompt'] = f'{prompt}\n{self.character_name}: {user_input}\n{self.character_name}:'
+                else:
+                    data['prompt'] = f'{prompt}\nUser: {user_input}\nAI:'
+
                 async with session.post('https://api.pawan.krd/v1/completions', headers=headers, json=data) as response:
                     if response.status == 200:
                         result = await response.json()
@@ -56,11 +57,15 @@ class AI(commands.Cog, name="AI"):
                     else:
                         await ctx.send(f"Command failed with status code {response.status}")
 
-    async def get_user_input(self, ctx):
+    async def get_user_input(self, ctx: commands.Context):
         def check(m):
             return m.author == ctx.author and m.channel == ctx.channel
-        user_input_msg = await self.bot.wait_for('message', check=check)
-        return user_input_msg.content
+        try:
+            user_input_msg = await self.bot.wait_for('message', check=check, timeout=120.0)
+            return user_input_msg.content
+        except asyncio.TimeoutError:
+            await ctx.send("Command timed out.")
+            raise
 
     @commands.command()
     async def charactermode(self, ctx, *, name: str):

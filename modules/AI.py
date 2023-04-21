@@ -23,7 +23,7 @@ class AI(commands.Cog, name="AI"):
         }
         data = {
             'model': 'gpt-3.5-turbo',
-            'prompt': f'"{content}"\nAI:',
+            'prompt': f'"{prompt}"\nAI:',
             'temperature': 0.7,
             'max_tokens': 256,
             'stop': ['Human:', 'AI:']
@@ -31,7 +31,7 @@ class AI(commands.Cog, name="AI"):
 
         async with aiohttp.ClientSession() as session:
             user_input = await self.get_user_input(ctx)
-            data['content'] = f'{content}\nUser: {user_input}\nAI:'
+            data['prompt'] = f'{prompt}\nUser: {user_input}\nAI:'
             
             async with ctx.typing():
                 async with session.post('https://api.pawan.krd/v1/chat/completions', headers=headers, json=data) as response:

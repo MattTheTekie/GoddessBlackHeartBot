@@ -36,7 +36,7 @@ class AI(commands.Cog, name="AI"):
 
     def get_ai_model(self):
         if self.anime_character:
-            return f"openai:text-davinci-002\n\nCharacter: {self.anime_character}"
+            return f"openai:text-davinci-002"
         else:
             return "openai:text-davinci-002"
 

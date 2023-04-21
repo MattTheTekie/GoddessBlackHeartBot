@@ -22,7 +22,8 @@ class AI(commands.Cog, name="AI"):
             async with session.post('http://127.0.0.1:8080/api', json=data) as resp:
                 if resp.status == 200:
                     result = await resp.json()
-                    await ctx.send(f"```\n{result['text']}\n```")
+                    text = result.get("text", "")
+                    await ctx.send(f"```\n{text}\n```")
                 else:
                     await ctx.send(f"Command failed with status {resp.status}")
 

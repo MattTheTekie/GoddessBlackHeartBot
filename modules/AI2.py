@@ -9,7 +9,7 @@ class AI2(commands.Cog, name="AI2"):
     @commands.command()        
     async def ai2(self, ctx, *, prompt):
         data = {
-            "model": "openai:text-davinci-003",
+            "model": "openai:text-davinci-002",
             "prompt": prompt
         }
         # Send typing indicator to indicate bot is processing request

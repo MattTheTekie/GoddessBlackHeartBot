@@ -16,14 +16,12 @@ class AI(commands.Cog, name="AI"):
 
     @commands.command()        
     async def ai(self, ctx, *, prompt: str):
-        cmd = '''curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
+        cmd = f'''curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
 --header 'Content-Type: application/json' \
 --data-raw '{
- 
-        "model": "openai:gpt-3.5-turbo",
-        'prompt': f'"{prompt}"\nAI:',
-}' | grep -oP '(?<="data":")[^"]*'
-        '''
+    "model": "openai:gpt-3.5-turbo",
+    "prompt": "{prompt}\nAI:"
+}' | grep -oP '(?<="data":")[^"]*' '''
         try:
             result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
             await ctx.send(f"```\n{result}\n```")

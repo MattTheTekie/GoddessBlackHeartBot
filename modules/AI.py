@@ -10,7 +10,7 @@ class AI(commands.Cog, name="AI"):
     @commands.command()
     async def setch(self, ctx, *, anime_character=None):
         if anime_character is not None:
-            self.anime_character = anime_character
+            self.anime_character = " ".join(anime_character.split())
             await ctx.send(f"AI model set to: {self.anime_character}")
             await ctx.message.add_reaction('👌')
         else:
@@ -36,7 +36,7 @@ class AI(commands.Cog, name="AI"):
 
     def get_ai_model(self):
         if self.anime_character:
-            return "openai:text-davinci-003"
+            return f"openai:text-davinci-003, persona={self.anime_character}"
         else:
             return "openai:text-davinci-002"
 

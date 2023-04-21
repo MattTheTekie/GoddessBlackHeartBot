@@ -25,4 +25,5 @@ To-Do:
 - Build the music module
 - Add more cool bot functions/features
 - Complete the Encryption module
+
 ~~- OpenAI (ChatGPT no cooldowns)~~

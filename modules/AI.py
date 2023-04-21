@@ -8,7 +8,7 @@ class AI(commands.Cog, name="AI"):
         self.anime_character = None
 
     @commands.command()
-    async def setch(self, ctx, anime_character: str = None):
+    async def setch(self, ctx, ):
         if anime_character:
             self.anime_character = anime_character.strip()
             await ctx.send(f"AI model set to: {self.anime_character}")

@@ -31,7 +31,7 @@ curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
         "prompt": "What is Ubuntu?"
 }'
     ]
-}\' | grep -oP '(?<="data":")[^"]*' '''
+}\' | grep -oP '(?<="data":")[^"]*'
         try:
             result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
             await ctx.send(f"```\n{result}\n```")

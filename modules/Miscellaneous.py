@@ -83,21 +83,5 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
     async def chrome(self, ctx):
         await ctx.send('The current version of Chrome is ' + self.bot.chrome_version)
 
-    @commands.command()
-    async def weather(self, ctx, *, location: str):
-        url = f"https://wttr.in/{location}?format=%C\n%t\n%h\n%w\n"
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.text.strip().split("\n")
-            city = data[0]
-            temperature = data[1]
-            humidity = data[2]
-            wind = data[3]
-            message = f"**Weather in {city}:**\nTemperature: {temperature}\nHumidity: {humidity}\nWind: {wind}"
-            await ctx.send(message)
-        else:
-            await ctx.send("Sorry, I couldn't get the weather for that location.")
-
 def setup(bot):
     bot.add_cog(Miscellaneous(bot))
-    bot.add_cog(Weather(bot))

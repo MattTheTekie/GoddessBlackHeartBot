@@ -16,14 +16,7 @@ class AI(commands.Cog, name="AI"):
 
     @commands.command()        
     async def ai(self, ctx):
-        cmd = '''~~curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
---header 'Content-Type: application/json' \
---data-raw '{
- 
-        "model": "openai:gpt-3.5-turbo",
-        "prompt": "您是一个Rust语言专家,我有问题需要问你。\n\n请问如何写一个hello world程序?"
-}'~~ [edited]
-curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
+        cmd = ''~curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
 --header 'Content-Type: application/json' \
 --data-raw '{
  

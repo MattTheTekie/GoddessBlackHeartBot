@@ -11,6 +11,7 @@ Features:
 - Music capabilities
 - News access
 - Administrative commands (kick, ban, etc.)
+- AI functionality
 
 Installation:
 See the INSTALL.md file for instructions.

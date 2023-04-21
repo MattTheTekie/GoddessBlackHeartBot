@@ -1,4 +1,3 @@
-
 import discord
 from discord.ext import commands
 import aiohttp
@@ -10,7 +9,7 @@ class AI(commands.Cog, name="AI"):
 
     @commands.command()        
     async def ai(self, ctx, *, prompt):
-        if prompt.lower().startswith("setch "):
+        if prompt.lower().startswith("set character "):
             self.anime_character = prompt[14:]
             await ctx.send(f"AI model set to: {self.anime_character}")
             await self.update_bot_profile()

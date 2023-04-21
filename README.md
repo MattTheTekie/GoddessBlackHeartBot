@@ -7,9 +7,9 @@ You can join the official server or invite the bot to your own server through th
 Features:
 - Basic encryption, decryption, and hash
 - Anime-related content
+- Cats for all
 - An economy run on chickens
 - Music capabilities
-- News access
 - Administrative commands (kick, ban, etc.)
 - AI functionality
 

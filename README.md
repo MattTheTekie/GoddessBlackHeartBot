@@ -18,6 +18,7 @@ Installation:
 See the INSTALL.md file for instructions.
 
 To-Do:
+- AI webhook functionality
 - Build the mute command
 - List the bot on discordbots.org
 - Reach 200 guilds
@@ -25,5 +26,3 @@ To-Do:
 - Build the music module
 - Add more cool bot functions/features
 - Complete the Encryption module
-
-~~- OpenAI (ChatGPT no cooldowns)~~

@@ -30,13 +30,13 @@ class AI(commands.Cog, name="AI"):
                     async with aiohttp.ClientSession() as session:
                         async with session.post('http://127.0.0.1:8080/api', json=data) as response:
                             result = await response.json()
-                            await ctx.send(f"```\n{result['data']}\n```")
+                            await ctx.send(f"```\n{result['data'].strip()}\n```")
                 except Exception as e:
                     await ctx.send(f"An error occurred while processing your request: {e}")
 
     def get_ai_model(self):
         if self.anime_character:
-            return "openai:text-davinci-003"
+            return f"openai:text-davinci-002\n\nCharacter: {self.anime_character}"
         else:
             return "openai:text-davinci-002"
 

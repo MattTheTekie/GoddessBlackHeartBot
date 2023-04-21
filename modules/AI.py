@@ -6,7 +6,23 @@ class AI(commands.Cog, name="AI"):
     def __init__(self, bot):
         self.bot = bot
         self.anime_character = None
-        
+        self.load_config()
+
+    async def save_config(self):
+        with open('config.txt', 'w') as f:
+            f.write(self.anime_character or "default")
+
+    def load_config(self):
+        try:
+            with open('config.txt', 'r') as f:
+                anime_character = f.read().strip()
+                if anime_character.lower() == "default":
+                    self.anime_character = None
+                else:
+                    self.anime_character = anime_character
+        except FileNotFoundError:
+            pass
+    
     @commands.command()
     async def setch(self, ctx, *, anime_character):
         if anime_character.lower() == "default":
@@ -15,6 +31,7 @@ class AI(commands.Cog, name="AI"):
         else:
             self.anime_character = anime_character
             await ctx.send(f"AI model set to: {self.anime_character}")
+        await self.save_config()
         await ctx.message.add_reaction('👌')
     
     @commands.command()

@@ -12,11 +12,11 @@ class AI(commands.Cog, name="AI"):
         if prompt.lower().startswith("setch "):
             self.anime_character = prompt[14:]
             await ctx.send(f"AI model set to: {self.anime_character}")
-            await self.update_bot_profile()
+            await ctx.message.add_reaction('👌')
         else:
             data = {
                 "model": self.get_ai_model(),
-                "prompt": prompt
+                "prompt": prompt,
             }
             # Send typing indicator to indicate bot is processing request
             async with ctx.typing():
@@ -30,18 +30,9 @@ class AI(commands.Cog, name="AI"):
 
     def get_ai_model(self):
         if self.anime_character:
-            return f"openai:gpt-3.5-{self.anime_character.lower().replace(' ', '-')}"
+            return "openai:text-davinci-003"
         else:
-            return "openai:gpt-3.5-turbo"
-
-    async def update_bot_profile(self):
-        if self.anime_character:
-            username = self.anime_character
-            await self.bot.user.edit(username=username)
-
-    @commands.Cog.listener()
-    async def on_ready(self):
-        await self.update_bot_profile()
+            return "openai:text-davinci-002"
 
 def setup(bot):
     bot.add_cog(AI(bot))

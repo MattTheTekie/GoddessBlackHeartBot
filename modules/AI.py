@@ -67,12 +67,14 @@ class AI(commands.Cog, name="AI"):
         self.character_mode = True
         self.character_name = name
         await ctx.send(f"Now in character mode as {self.character_name}.")
+        await ctx.message.add_reaction('👌')
 
     @commands.command()
     async def normalmode(self, ctx):
         self.character_mode = False
         self.character_name = ""
         await ctx.send("Now in normal mode.")
+        await ctx.message.add_reaction('👌')
 
 def setup(bot):
     bot.add_cog(AI(bot))

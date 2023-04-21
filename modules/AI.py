@@ -30,7 +30,7 @@ class AI(commands.Cog, name="AI"):
 
     def get_ai_model(self):
         if self.anime_character:
-            return f"openai:text-davinci-003-{self.anime_character.lower().replace(' ', '-')}"
+            return f"openai:gpt-3.5-{self.anime_character.lower().replace(' ', '-')}"
         else:
             return "openai:gpt-3.5-turbo"
 

@@ -12,7 +12,6 @@ class AI(commands.Cog, name="AI"):
         if anime_character.lower() == "default":
             self.anime_character = None
             await ctx.send("AI model reset to default")
-            await ctx.message.add_reaction('👌')
         else:
             self.anime_character = anime_character
             await ctx.send(f"AI model set to: {self.anime_character}")
@@ -33,8 +32,11 @@ class AI(commands.Cog, name="AI"):
                         response_chunks = [result['data'][i:i+2000] for i in range(0, len(result['data']), 2000)]
                         for chunk in response_chunks:
                             await ctx.send(f"```\n{chunk}\n```")
-            except Exception as e:
-                await ctx.send(f"An error occurred while processing your request: {e}")
+            except discord.errors.HTTPException as e:
+                # Split the response into chunks of 2000 characters or less
+                response_chunks = [result['data'][i:i+1900] for i in range(0, len(result['data']), 1900)]
+                for chunk in response_chunks:
+                    await ctx.send(f"```\n{chunk}\n```")
 
     def get_ai_model(self):
         if self.anime_character:

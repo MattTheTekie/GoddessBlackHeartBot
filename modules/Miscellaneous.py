@@ -55,7 +55,7 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
             await ctx.send("I do not have permission to do that.")
             return
         await ctx.message.delete()
-        await ctx.send("Someone has been turned into Donald Drumpf.")
+            await ctx.send("Someone has been turned into Donald Drumpf.")
 
     @commands.command()
     async def wegothim(self, ctx):

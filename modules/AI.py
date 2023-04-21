@@ -1,8 +1,11 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands.cooldowns import BucketType
 import json
+from datetime import date, time, datetime, timedelta
 import aiohttp
 import random
+import requests
 import asyncio
 import subprocess
 
@@ -11,22 +14,29 @@ class AI(commands.Cog, name="AI"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.command()        
     async def ai(self, ctx):
-        url = 'http://127.0.0.1:8080/api'
-        data = {
-            "model": "openai:gpt-3.5-turbo",
-            "prompt": "What is Ubuntu?"
-        }
-        headers = {
-            'Content-Type': 'application/json'
-        }
+        cmd = '''~~curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+ 
+        "model": "openai:gpt-3.5-turbo",
+        "prompt": "您是一个Rust语言专家,我有问题需要问你。\n\n请问如何写一个hello world程序?"
+}'~~ [edited]
+curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+ 
+        "model": "openai:gpt-3.5-turbo",
+        "prompt": "What is Ubuntu?"
+}'
+    ]
+}\' | grep "text"'''
+        try:
+            result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
+            await ctx.send(f"```\n{result}\n```")
+        except subprocess.CalledProcessError as exc:
+            await ctx.send(f"Command failed with exit code {exc.returncode}: ```\n{exc.output}\n```")
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, headers=headers, data=json.dumps(data)) as response:
-                result = await response.json()
-                text_result = result.get("text", "")
-                await ctx.send(f"```{text_result}```")
-        
 def setup(bot):
     bot.add_cog(AI(bot))

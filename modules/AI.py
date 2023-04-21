@@ -16,7 +16,7 @@ class AI(commands.Cog, name="AI"):
 
     @commands.command()        
     async def ai(self, ctx):
-        cmd = ''~curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
+        cmd = ''curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
 --header 'Content-Type: application/json' \
 --data-raw '{
  

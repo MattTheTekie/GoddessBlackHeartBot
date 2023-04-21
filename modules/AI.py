@@ -1,34 +1,25 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands.cooldowns import BucketType
-import json
-from datetime import date, time, datetime, timedelta
 import aiohttp
-import random
-import requests
-import asyncio
 import subprocess
 
 class AI(commands.Cog, name="AI"):
-
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command()        
-    async def ai(self, ctx, *, prompt: str):
-        cmd = '''curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
---header 'Content-Type: application/json' \
---data-raw '{
- 
-        "model": "openai:gpt-3.5-turbo",
-        'prompt': f'"{prompt}"\nAI:',
-}' | grep -oP '(?<="data":")[^"]*' '''
-
+    async def ai(self, ctx, *, prompt):
+        data = {
+            "model": "openai:gpt-3.5-turbo",
+            "prompt": prompt
+        }
         try:
-            result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
-            await ctx.send(f"Here is your result: {result}%%")
-        except subprocess.CalledProcessError as exc:
-            await ctx.send(f"Command failed with exit code {exc.returncode}: ```\n{exc.output}\n```")
+            async with aiohttp.ClientSession() as session:
+                async with session.post('http://127.0.0.1:8080/api', json=data) as response:
+                    result = await response.json()
+                    await ctx.send(f"```\n{result['data']}\n```")
+        except Exception as e:
+            await ctx.send(f"An error occurred while processing your request: {e}")
 
 def setup(bot):
     bot.add_cog(AI(bot))

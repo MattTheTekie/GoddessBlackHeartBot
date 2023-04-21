@@ -21,7 +21,6 @@ To-Do:
 - List the bot on discordbots.org
 - Reach 200 guilds
 - Gain access to weeb.sh
-- Use aiohttp for Konachan
 - Build the music module
 - Add more cool bot functions/features
 - Complete the Encryption module

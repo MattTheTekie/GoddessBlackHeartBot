@@ -6,19 +6,25 @@ class AI(commands.Cog, name="AI"):
     def __init__(self, bot):
         self.bot = bot
         self.anime_character = None
+        self.default_model = "openai:gpt-3.5-turbo"
 
     @commands.command()        
     async def ai(self, ctx, *, prompt):
-        if prompt.lower().startswith("set character "):
-            self.anime_character = prompt[14:]
-            await ctx.send(f"AI model set to: {self.anime_character}")
-            await self.update_bot_profile()
+        if prompt.lower().startswith("setch "):
+            character = prompt[6:].strip()
+            if character.lower() == "default":
+                self.anime_character = None
+                await ctx.send("Character set to default.")
+                await self.update_bot_profile()
+            else:
+                self.anime_character = character
+                await ctx.send(f"Character set to: {self.anime_character}")
+                await self.update_bot_profile()
         else:
             data = {
                 "model": self.get_ai_model(),
                 "prompt": prompt
             }
-            # Send typing indicator to indicate bot is processing request
             async with ctx.typing():
                 try:
                     async with aiohttp.ClientSession() as session:
@@ -32,12 +38,14 @@ class AI(commands.Cog, name="AI"):
         if self.anime_character:
             return f"openai:text-davinci-003-{self.anime_character.lower().replace(' ', '-')}"
         else:
-            return "openai:gpt-3.5-turbo"
+            return self.default_model
 
     async def update_bot_profile(self):
         if self.anime_character:
             username = self.anime_character
-            await self.bot.user.edit(username=username)
+        else:
+            username = "My AI Bot"
+        await self.bot.user.edit(username=username)
 
     @commands.Cog.listener()
     async def on_ready(self):

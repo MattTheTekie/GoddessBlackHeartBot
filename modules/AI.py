@@ -31,6 +31,7 @@ class AI(commands.Cog, name="AI"):
         else:
             self.anime_character = anime_character
             await ctx.send(f"AI model set to: {self.anime_character}")
+        
         await self.save_config()
         await ctx.message.add_reaction('👌')
     

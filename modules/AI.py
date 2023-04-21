@@ -17,3 +17,5 @@ class AI(commands.Cog):
             await ctx.send(text)
         else:
             await ctx.send("Sorry, I couldn't generate a response.")
+def setup(bot):
+    bot.add_cog(AI(bot))

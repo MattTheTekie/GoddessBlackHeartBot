@@ -65,7 +65,7 @@ class AI(commands.Cog, name="AI"):
     @commands.command()
     async def charactermode(self, ctx, name: str):
         self.character_mode = True
-        self.character_name = name
+        self.character_name = "name"
         await ctx.send(f"Now in character mode as {self.character_name}.")
         await ctx.message.add_reaction('👌')
 

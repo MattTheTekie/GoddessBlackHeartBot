@@ -8,7 +8,7 @@ class AI(commands.Cog):
 
     @commands.command()
     async def ai(self, ctx, *, prompt: str):
-        url = 'http://100.110.158.36:8080/api'
+        url = 'http://127.0.0.1:8080/api'
         headers = {'Content-Type': 'application/json'}
         data = {
             'model': 'openai:gpt-3.5-turbo',

@@ -9,14 +9,14 @@ class AI(commands.Cog, name="AI"):
 
     @commands.command()
     async def setch(self, ctx, *, anime_character=None):
-        if anime_character:
+        if anime_character is not None:
             self.anime_character = anime_character
             await ctx.send(f"AI model set to: {self.anime_character}")
             await ctx.message.add_reaction('👌')
         else:
-            self.anime_character = None
             await ctx.send("Session state of the AI model has been reset.")
             await ctx.message.add_reaction('👌')
+            self.anime_character = None
 
     @commands.command()
     async def ai(self, ctx, *, prompt):

@@ -11,11 +11,11 @@ class AI(commands.Cog, name="AI"):
         self.bot = bot
 
     @commands.command()
-    async def ai(self, ctx):
+    async def ai(self, ctx, *, prompt):
         url = 'http://127.0.0.1:8080/api'
         data = {
             "model": "openai:gpt-3.5-turbo",
-            "prompt": "您是一个Rust语言专家,我有问题需要问你。\n\n请问如何写一个hello world程序?"
+            "prompt": prompt
         }
         headers = {
             'Content-Type': 'application/json'

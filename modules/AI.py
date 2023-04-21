@@ -25,7 +25,7 @@ class AI(commands.Cog):
 
         data = {
             'model': 'openai:gpt-3.5-turbo',
-            'prompt': f'Human: {user_input.content}\nAI:',
+            'prompt': f'{user_input.content}',
             'temperature': 0.7,
             'max_tokens': 256,
             'stop': ['Human:', 'AI:']

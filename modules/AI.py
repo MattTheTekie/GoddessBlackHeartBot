@@ -1,7 +1,3 @@
-import discord
-from discord.ext import commands
-import requests
-
 class AI(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -15,7 +11,9 @@ class AI(commands.Cog):
             'prompt': prompt
         }
         response = requests.post(url, headers=headers, json=data)
-        await ctx.send(response.json()['text'])
-
-def setup(bot):
-    bot.add_cog(AI(bot))
+        response_dict = response.json()
+        text = response_dict.get('text')
+        if text:
+            await ctx.send(text)
+        else:
+            await ctx.send("Sorry, I couldn't generate a response.")

@@ -7,21 +7,17 @@ class AI(commands.Cog, name="AI"):
         self.bot = bot
         self.anime_character = None
 
-    @commands.command()
-    async def setch(self, ctx, ):
-        if anime_character:
-            self.anime_character = anime_character.strip()
-            await ctx.send(f"AI model set to: {self.anime_character}")
-        else:
-            await ctx.send("Session state of the AI model has been reset.")
-            self.anime_character = None
-        await ctx.message.add_reaction('👌')
-
     @commands.command()        
     async def ai(self, ctx, *, prompt):
         if prompt.lower().startswith("setch "):
-            self.anime_character = prompt[14:]
+            self.anime_character = prompt[6:].strip()
             await ctx.send(f"AI model set to: {self.anime_character}")
+            await ctx.message.add_reaction('👌')
+        elif prompt.lower() == "setch":
+            await ctx.send("Please provide an anime character after `setch`.")
+        elif prompt.lower() == "reset":
+            self.anime_character = None
+            await ctx.send("Session state of the AI model has been reset.")
             await ctx.message.add_reaction('👌')
         else:
             data = {

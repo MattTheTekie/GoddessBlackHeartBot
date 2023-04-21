@@ -49,7 +49,8 @@ class Miscellaneous(commands.Cog, name="Miscellaneous"):
         if not ctx.message.channel.permissions_for(ctx.message.author.guild.me).manage_nicknames:
             await ctx.send(":x: I do not have permission to edit nicknames.")
             return
-        try:            await user.edit(nick="Donald Drumpf")
+        try:            
+        await user.edit(nick="Donald Drumpf")
         except discord.Forbidden:
             await ctx.send("I do not have permission to do that.")
             return

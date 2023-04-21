@@ -15,13 +15,13 @@ class AI(commands.Cog, name="AI"):
         self.bot = bot
 
     @commands.command()        
-    async def ai(self, ctx):
+    async def ai(self, ctx, *, prompt: str):
         cmd = '''curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
 --header 'Content-Type: application/json' \
 --data-raw '{
  
         "model": "openai:gpt-3.5-turbo",
-        "prompt": "What is Ubuntu?"
+        'prompt': f'"{prompt}"\nAI:',
 }' | grep -oP '(?<="data":")[^"]*'
         '''
         try:

@@ -7,26 +7,36 @@ import aiohttp
 import random
 import requests
 import asyncio
-import subprocess
 
 class AI(commands.Cog, name="AI"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()        
+    async def preflight(self, ctx, prompt):
+        async with aiohttp.ClientSession() as session:
+            async with session.options('http://127.0.0.1:8080/api', headers={'Content-Type': 'application/json', 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'Content-Type'}) as resp:
+                if resp.status != 200:
+                    await ctx.send(f"Preflight failed with status {resp.status}")
+                    return False
+                else:
+                    return True
+
+    @commands.command()
     async def ai(self, ctx, *, prompt):
-        cmd = f'''curl --silent --location --request POST 'http://127.0.0.1:8080/api' \
---header 'Content-Type: application/json' \
---data-raw '{{
- 
-        "model": "openai:gpt-3.5-turbo",
-        "prompt": "{prompt}"
-}}' | grep "text"'''
-        try:
-            result = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT, universal_newlines=True)
-            await ctx.send(f"```\n{result}\n```")
-        except subprocess.CalledProcessError as exc:
-            await ctx.send(f"Command failed with exit code {exc.returncode}: ```\n{exc.output}\n```")
+        if not await self.preflight(ctx, prompt):
+            return
+
+        async with aiohttp.ClientSession() as session:
+            data = {
+                "model": "openai:gpt-3.5-turbo",
+                "prompt": prompt
+            }
+            async with session.post('http://127.0.0.1:8080/api', json=data) as resp:
+                if resp.status == 200:
+                    result = await resp.json()
+                    await ctx.send(f"```\n{result['text']}\n```")
+                else:
+                    await ctx.send(f"Command failed with status {resp.status}")
 
 def setup(bot):
     bot.add_cog(AI(bot))

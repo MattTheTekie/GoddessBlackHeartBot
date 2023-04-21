@@ -22,7 +22,7 @@ class AI(commands.Cog, name="AI"):
             'Content-Type': 'application/json'
         }
         data = {
-            'model': 'text-davinci-002',
+            'model': 'gpt-3.5-turbo',
             'prompt': f'"{prompt}"\nAI:',
             'temperature': 0.7,
             'max_tokens': 256,
@@ -34,7 +34,7 @@ class AI(commands.Cog, name="AI"):
             data['prompt'] = f'{prompt}\nUser: {user_input}\nAI:'
             
             async with ctx.typing():
-                async with session.post('https://api.pawan.krd/v1/completions', headers=headers, json=data) as response:
+                async with session.post('https://api.pawan.krd/v1/chat/completions', headers=headers, json=data) as response:
                     if response.status == 200:
                         result = await response.json()
                         text = result['choices'][0]['text']

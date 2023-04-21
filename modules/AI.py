@@ -10,9 +10,14 @@ class AI(commands.Cog, name="AI"):
     @commands.command()        
     async def ai(self, ctx, *, prompt):
         if prompt.lower().startswith("setch "):
-            self.anime_character = prompt[14:]
-            await ctx.send(f"AI model set to: {self.anime_character}")
-            await ctx.message.add_reaction('👌')
+            if prompt[14:].lower() == "default":
+                self.anime_character = None
+                await ctx.send("AI model reset to default")
+                await ctx.message.add_reaction('👌')
+            else:
+                self.anime_character = prompt[14:]
+                await ctx.send(f"AI model set to: {self.anime_character}")
+                await ctx.message.add_reaction('👌')
         else:
             data = {
                 "model": self.get_ai_model(),

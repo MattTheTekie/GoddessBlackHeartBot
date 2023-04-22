@@ -14,7 +14,7 @@ class AI2(commands.Cog, name="AI2"):
             prompt = self.prompt_history[user_id] + " " + prompt
 
         data = {
-            "model": "openai:text-davinci-002",
+            "model": "openai:text-davinci-003",
             "prompt": prompt
         }
 

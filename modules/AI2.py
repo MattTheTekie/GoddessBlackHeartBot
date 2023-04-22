@@ -1,8 +1,6 @@
-
 import discord
 from discord.ext import commands
 import aiohttp
-
 
 class AI2(commands.Cog, name="AI2"):
     def __init__(self, bot):
@@ -29,7 +27,8 @@ class AI2(commands.Cog, name="AI2"):
                         if 'prompt' in result:
                             prompt = result['prompt']
                             self.prompt_history[user_id] = prompt
-                        await ctx.send(f"```\n{output}\n```")
+                        for chunk in [output[i:i+2000] for i in range(0, len(output), 2000)]:
+                            await ctx.send(f"```\n{chunk}\n```")
             except Exception as e:
                 await ctx.send(f"An error occurred while processing your request: {e}")
 

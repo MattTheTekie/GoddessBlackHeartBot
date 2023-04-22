@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import aiohttp
 
-class AI2(commands.Cog, name="AI2"):
+class AI(commands.Cog, name="AI"):
     def __init__(self, bot):
         self.bot = bot
         self.prompt_history = {}
@@ -33,4 +33,4 @@ class AI2(commands.Cog, name="AI2"):
                 await ctx.send(f"An error occurred while processing your request: {e}")
 
 def setup(bot):
-    bot.add_cog(AI2(bot))
+    bot.add_cog(AI(bot))

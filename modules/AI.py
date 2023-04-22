@@ -8,7 +8,7 @@ class AI(commands.Cog, name="AI"):
         self.prompt_history = {}
 
     @commands.command()        
-    async def ai2(self, ctx, *, prompt):
+    async def ai(self, ctx, *, prompt):
         user_id = ctx.author.id
         if user_id in self.prompt_history:
             prompt = self.prompt_history[user_id] + " " + prompt

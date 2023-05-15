@@ -4,7 +4,7 @@ from discord.ext import commands
 import aiohttp
 
 
-class devilai(commands.Cog, name="devilai"):
+class devilai(commands.Cog, name="D3VILAI"):
     def __init__(self, bot):
         self.bot = bot
         self.prompt_history = {}

@@ -8,7 +8,7 @@ from discord.ext import commands
 url_rx = re.compile('https?:\\/\\/(?:www\\.)?.+')  # noqa: W605
 
 
-class Music(commands.Cog, name='Discontinued Music Module'):
+class Music(commands.Cog, name='Music'):
     def __init__(self, bot):
         self.bot = bot
 

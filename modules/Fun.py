@@ -194,7 +194,7 @@ class Fun(commands.Cog, name="Fun"):
 
     @commands.command()
     async def randomquote(self, ctx):
-        quote = self.quotes[str(random.randint(0, 46))]
+        quote = self.quotes[str(random.randint(0, 47))]
 #        await ctx.send(quote.encode("utf-8"))
         await ctx.send(quote)
 
